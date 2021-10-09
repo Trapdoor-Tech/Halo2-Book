@@ -1,4 +1,4 @@
-# Halo 2 proofs
+# Halo2 证明
 
 ## Proofs as opaque byte streams
 

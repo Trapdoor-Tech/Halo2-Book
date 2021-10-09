@@ -1,4 +1,4 @@
-# Fields
+# 域
 
 The [Pasta curves](https://electriccoin.co/blog/the-pasta-curves-for-halo-2-and-beyond/)
 that we use in `halo2` are designed to be highly 2-adic, meaning that a large $2^S$

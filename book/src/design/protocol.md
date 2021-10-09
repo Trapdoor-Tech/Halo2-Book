@@ -1,4 +1,4 @@
-# Protocol Description
+# Halo2 协议
 
 ## Preliminaries
 

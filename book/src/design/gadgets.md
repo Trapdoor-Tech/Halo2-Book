@@ -1,4 +1,4 @@
-# Gadgets
+# 组件
 
 In this section we document some example gadgets and chip designs that are suitable for
 Halo 2.
