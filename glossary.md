@@ -1,1 +1,5 @@
 - argument: 论据
+- language: 语言
+- grand product: 大乘积
+- generalization: 泛化
+- column: 列
