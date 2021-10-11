@@ -2,4 +2,7 @@
 - language: 语言
 - grand product: 大乘积
 - generalization: 泛化
+- selector: 选择子
+- row: 行
 - column: 列
+- lagrange basis polynomial: 拉格朗日基多项式
