@@ -1,4 +1,4 @@
-# Lookup argument
+# 查找（Lookup） argument
 
 halo2 uses the following lookup technique, which allows for lookups in arbitrary sets, and
 is arguably simpler than Plookup.
