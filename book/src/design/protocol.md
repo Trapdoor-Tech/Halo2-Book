@@ -264,8 +264,9 @@ $\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in 
   * 最后 $\prover$ 设置 $q_0(X) := x_1^2 q_0(X) + x_1 h'(X) + r(X)$.
 13. $\prover$ 和 $\verifier$ 初始化 $r_0(X), r_1(X), ..., r_{n_q - 1}(X) = 0$.
   * 从 $i=0$ 开始到 $i=n_a - 1$ ， $\prover$ 和 $\verifier$ 设置 $r_{\sigma(i)}(X) := x_1 r_{\sigma(i)}(X) + s_i(X)$.
-  * 最后 $\prover$ 和 $\verifier$ 设置 $r_0 := x_1^2 r_0 + x_1 h + r$ ，由 $\verifier$ 使用 $r$ 计算 $h = \frac{g'(x)}{t(x)}$ ？？？，由 $\prover$ 提供 \mathbf{a}$ 。
+  * 最后 $\prover$ 和 $\verifier$ 设置 $r_0 := x_1^2 r_0 + x_1 h + r$ ，由 $\verifier$ 使用 $r$ 计算 $h = \frac{g'(x)}{t(x)}$ ？？？，由 $\prover$ 提供 $\mathbf{a}$ 。
 14. $\prover$ 发送 $Q' = \innerprod{\mathbf{q'}}{\mathbf{G}} + [\cdot] W$ ，其中 $\mathbf{q'}$ 为下列多项式的系数：
+
 $$q'(X) = \sum\limits_{i=0}^{n_q - 1}
 
 x_2^i
@@ -315,4 +316,4 @@ $$
   * $\prover$ 和 $\verifier$ 设置 $\mathbf{G'} := \mathbf{G'}_\lo + u_j \mathbf{G'}_\hi$ 且 $\mathbf{b} = \mathbf{b}_\lo + u_j \mathbf{b}_\hi$.
   * $\prover$ 设置 $\mathbf{p'} := \mathbf{p'}_\lo + u_j^{-1} \mathbf{p'}_\hi$.
 25. $\prover$ 发送 $c = \mathbf{p'}_0$ 以及盲因子 $f$.
-26. 若 $\sum_{j=0}^{k - 1} [u_j^{-1}] L_j + P' + \sum_{j=0}^{k - 1} [u_j] R_j = [c] \mathbf{G'}_0 + [c \mathbf{b}_0 z] U + [f] W$ ，则 $\prover$ 接受证明。
+26. 若 $\sum_{j=0}^{k - 1} [u_j^{-1}] L_j + P' + \sum_{j=0}^{k - 1} [u_j] R_j = [c] \mathbf{G'}_0 + [c \mathbf{b}_0 z] U + [f] W$ ，则 $\verifier$ 接受证明。
