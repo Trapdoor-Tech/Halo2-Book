@@ -1,87 +1,69 @@
-# Chips
+# 芯片
 
-The previous section gives a fairly low-level description of a circuit. When implementing circuits we will
-typically use a higher-level API which aims for the desirable characteristics of auditability,
-efficiency, modularity, and expressiveness.
+在先前的章节中, 提到了 一个低层次的电路描述. 在实现电路时, 我们通常会使用以可审核性、效率、模块化和可表达性为目标的高层次的api
 
-Some of the terminology and concepts used in this API are taken from an analogy with
-integrated circuit design and layout. [As for integrated circuits](https://opencores.org/),
-the above desirable characteristics are easier to obtain by composing ***chips*** that provide
-efficient pre-built implementations of particular functionality.
+在api中使用的一些术语和概念是类比于集成电路的设计和布局.[关于集成电路](https://opencores.org/),
+通过组合特定功能的高效预编译的 ***芯片*** 更容易获得上述理想的特性.
 
-For example, we might have chips that implement particular cryptographic primitives such as a
-hash function or cipher, or algorithms like scalar multiplication or pairings.
 
-In UPA, it is possible to build up arbitrary logic just from standard gates that do field
-multiplication and addition. However, very significant efficiency gains can be obtained by
-using custom gates.
+举个例子, 我们可能有  实现特定密码学原语 的芯片, 比如说 哈希函数, 或者加密算法 或者像标量乘法或配对这样的算法.
 
-Using our API, we define chips that "know" how to use particular sets of custom gates. This
-creates an abstraction layer that isolates the implementation of a high-level circuit from the
-complexity of using custom gates directly.
+在UPA中，仅仅有执行域乘法和加法的标准门电路就可以建立任意逻辑, 然而, 使用自定义门电路可以获得非常显著的效率增益.
 
-> Even if we sometimes need to "wear two hats", by implementing both a high-level circuit and
-> the chips that it uses, the intention is that this separation will result in code that is
-> easier to understand, audit, and maintain/reuse. This is partly because some potential
-> implementation errors are ruled out by construction.
+使用我们的API, 我们定义了"知道" 如何使用特定的自定义门集合的芯片. 
+这创建了一个将高级电路的实现与直接使用自定义门的复杂性隔离开的抽象层.
 
-Gates in UPA refer to cells by ***relative references***, i.e. to the cell in a given column,
-and the row at a given offset relative to the one in which the gate's selector is set. We call
-this an ***offset reference*** when the offset is nonzero (i.e. offset references are a subset
-of relative references).
 
-Relative references contrast with ***absolute references*** used in equality constraints,
-which can point to any cell.
+> 尽管有时我们需要 "身兼两职", 既写高层次的电路, 也要写高层次电路所需要的芯片.
+> 这样做的目的是使代码更易于理解、审计和维护/重用.
+> 通过这种结构排除了一些潜在的实现的错误.
 
-The motivation for offset references is to reduce the number of columns needed in the
-configuration, which reduces proof size. If we did not have offset references then we would
-need a column to hold each value referred to by a custom gate, and we would need to use
-equality constraints to copy values from other cells of the circuit into that column. With
-offset references, we not only need fewer columns; we also do not need equality constraints to
-be supported for all of those columns, which improves efficiency.
 
-In R1CS (another arithmetization which may be more familiar to some readers, but don't worry
-if it isn't), a circuit consists of a "sea of gates" with no semantically significant ordering.
-Because of offset references, the order of rows in a UPA circuit, on the other hand, *is*
-significant. We're going to make some simplifying assumptions and define some abstractions to
-tame the resulting complexity: the aim will be that, [at the gadget level](gadgets.md) where
-we do most of our circuit construction, we will not have to deal with relative references or
-with gate layout explicitly.
+UPA中的门通过 ***相对引用*** 引用单元格，即给定列中的单元格，以及相对于设置门选择器的给定偏移量的行.
+当偏移非0时, 我们称之为 ***偏移参考*** (也就是说, 偏移引用是 相对引用的子集).
 
-We will partition a circuit into ***regions***, where each region contains a disjoint subset
-of cells, and relative references only ever point *within* a region. Part of the responsibility
-of a chip implementation is to ensure that gates that make offset references are laid out in
-the correct positions in a region.
+和 ***绝对引用*** 对比, 相对引用使用了相同的约束, 能指向任意单元格
 
-Given the set of regions and their ***shapes***, we will use a separate ***floor planner***
-to decide where (i.e. at what starting row) each region is placed. There is a default floor
-planner that implements a very general algorithm, but you can write your own floor planner if
-you need to.
 
-Floor planning will in general leave gaps in the matrix, because the gates in a given row did
-not use all available columns. These are filled in —as far as possible— by gates that do
-not require offset references, which allows them to be placed on any row.
+偏移引用的动机是减少配置中列的数量,从而减少证明的大小.
+如果没有偏移引用，则需要一个列来保存自定义门引用的每个值,
+以及我们需要使用相同的约束从电路的其他单元复制值到该列中.
+使用偏移引用, 我们不仅需要更少的列, 我们也不需要为所有这些列支持相同的约束，这可以提高效率.
 
-Chips can also define lookup tables. If more than one table is defined for the same lookup
-argument, we can use a ***tag column*** to specify which table is used on each row. It is also
-possible to perform a lookup in the union of several tables (limited by the polynomial degree
-bound).
+在R1CS(对于一些读者来说,可能这个算法更熟悉, 如果不是,也不要担心), 
+电路包含了无语义重要顺序的海量的门. 另一方面, 因为偏移引用, UPA电路中的行顺序 *是* 重要的
+我们做一些简单的假定和定义一些抽象概念来控制结构的复杂性: 目的就是这样, [在工具层](gadgets.md), 
+我们做了大多数的电路构造, 我们不处理相对引用或者是明确的门布局.
 
-## Composing chips
-In order to combine functionality from several chips, we compose them in a tree. The top-level
-chip defines a set of fixed, advice, and instance columns, and then specifies how they
-should be distributed between lower-level chips.
+我们把一个电路分到一个 ***范围*** 中, 每一个范围都包含着一个不相交的单元格子集, 相对引用只指向
+一个区域*内*. 芯片实现的部分职责是确保进行偏移引用的门被放置在区域的正确位置。
 
-In the simplest case, each lower-level chips will use columns disjoint from the other chips.
-However, it is allowed to share a column between chips. It is important to optimize the number
-of advice columns in particular, because that affects proof size.
+给定区域集合和***形状***,  我们将使用一个单独的 ***平面规划器*** 来决定每个区域放置在哪里(即起始行在哪里)。
+有一个实现了通用算法的默认 平面规划器, 在你需要时, 你可以写你自己的 平面规划器.
 
-The result (possibly after optimization) is a UPA configuration. Our circuit implementation
-will be parameterized on a chip, and can use any features of the supported lower-level chips via
-the top-level chip.
+平面规划一般会在矩阵中留下空隙, 因为在给定的行中,电路门没有使用所有可用的列. 
+它们尽可能由不需要偏移引用的门填充，这允许它们被放置在任何行上。
+
+芯片也定义了查找表. 如果同一个查找 argument 定义了多个表, 可以使用***标记列***指明 每行使用了哪一个表.
+也可能对多个表(受多项式次数界的限制)进行联合查找.
+
+## 芯片组合
+为了将几个芯片的功能结合起来，我们将它们组合在一棵树上.
+最高层次的芯片定义一组固定列、通知列和实例列，然后指定它们应该如何在较低级别芯片之间分布。
+
+在最简单的情况下，每个低层次芯片将使用与其他芯片分离的列。然而，在芯片之间共享一列也是允许的。
+优化advice列的数量尤其重要，因为这会影响证明的大小。
+
+
+结果(可能在优化之后)是一个UPA配置。我们的电路实现将在芯片上参数化，
+并且可以通过顶层次芯片使用支持的底层芯片的任何特性。
+
+我们希望不那么专业的用户通常能够找到支持他们需要的操作的现有芯片，
+或者只需要对现有芯片做微小的修改。专家级用户可以完全控制[] [电路优化](https://zips.z.cash/protocol/canopy.pdf#circuitdesign)
+的种类.
 
 Our hope is that less expert users will normally be able to find an existing chip that
 supports the operations they need, or only have to make minor modifications to an existing
 chip. Expert users will have full control to do the kind of
 [circuit optimizations](https://zips.z.cash/protocol/canopy.pdf#circuitdesign)
-[that ECC is famous  for](https://electriccoin.co/blog/cultivating-sapling-faster-zksnarks/) 🙂.
+[that ECC is famous for](https://electriccoin.co/blog/cultivating-sapling-faster-zksnarks/) 🙂.
