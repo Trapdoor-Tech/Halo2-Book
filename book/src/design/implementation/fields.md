@@ -59,7 +59,7 @@ $$
 
 定义 $\alpha_3 = x_3 \cdot g^{t_0 + 2^8 \cdot t_1 + 2^{16} \cdot t_2}.$
 
-### Final result
+### 最终结果
 查找 $t_3$ 使得
 
 $$
