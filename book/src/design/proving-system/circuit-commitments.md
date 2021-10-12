@@ -49,7 +49,19 @@ $$\mathbf{L} = \left[ (\text{Commit}(A'(X))), \text{Commit}(S'(X))), \dots \righ
 
 令 $b = \mathsf{ceiling}(c/m).$
 
-prover 构造一个长度为 $bu$ 的向量 $\mathbf{P}$ ，对于每个 column set ，有， $0 \leq a < b$ ，对于每一行有 $0 \leq j < u,$
+prover 构造一个长度为 $bu$ 的向量 $\mathbf{P}$ ，对于每个 column set ，有， $0 \leq a < b$ ，对于每一行有 $0 \leq j < u$
+
+$$
+\mathbf{P}_{au + j} = \prod\limits_{i=am}^{\min(c, (a+1)m)-1} \frac{v_i(\omega^j) + \beta \cdot \delta^i \cdot \omega^j + \gamma}{v_i(\omega^j) + \beta \cdot s_i(\omega^j) + \gamma}.
+$$
+
+prover 计算 $\mathbf{P}$ 的”滚动乘积“, 从 $1$ 开始，并且多项式向量 $Z_{P,0..b-1}$ 每个都有拉格朗日基表示，基于滚动乘积的长度为 $u$ 的切片，如 [Permutation argument](permutation.md#argument-specification) 章节中所描述的。
+
+最后 prover 为每个 $Z_{P,a}$ 多项式创建 blinding commitment ：
+
+$$\mathbf{Z_P} = \left[\text{Commit}(Z_{P,0}(X)), \dots, \text{Commit}(Z_{P,b-1}(X))\right]$$
+
+并发送给 verifier 。
 
 ## 对 lookup permutation product 列进行承诺
 
