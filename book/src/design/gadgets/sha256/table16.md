@@ -665,7 +665,8 @@ sa|sc|  $a_0$   |  $a_1$   |$a_2$     |$a_3$     |$a_4$     |$a_5$     |$a_6$   
 
 ### 消息调度区域
 
-For each block $M \in \{0,1\}^{512}$ of the padded message, $64$ words of $32$ bits each are constructed as follows:
+对于消息 $M \in \{0,1\}^{512}$ 中的每一个 block ，其64个32位字以如下方式构造：
+- 前16the first $16$ are obtained by splitting $M$ into $32$-bit blocks $$M = W_0 || W_1 || \cdots || W_{14} || W_{15};$$
 - the first $16$ are obtained by splitting $M$ into $32$-bit blocks $$M = W_0 || W_1 || \cdots || W_{14} || W_{15};$$
 - the remaining $48$ words are constructed using the formula:
 $$W_i = \sigma_1(W_{i-2}) \boxplus W_{i-7} \boxplus \sigma_0(W_{i-15}) \boxplus W_{i-16},$$ for $16 \leq i < 64$.
