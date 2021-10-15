@@ -666,9 +666,10 @@ sa|sc|  $a_0$   |  $a_1$   |$a_2$     |$a_3$     |$a_4$     |$a_5$     |$a_6$   
 ### 消息调度区域
 
 对于消息 $M \in \{0,1\}^{512}$ 中的每一个 block ，其64个32位字以如下方式构造：
-- 前16the first $16$ are obtained by splitting $M$ into $32$-bit blocks $$M = W_0 || W_1 || \cdots || W_{14} || W_{15};$$
-- the first $16$ are obtained by splitting $M$ into $32$-bit blocks $$M = W_0 || W_1 || \cdots || W_{14} || W_{15};$$
-- the remaining $48$ words are constructed using the formula:
+- 通过将 $M$ 以每32个比特进行划分，得到前16个
+$$M = W_0 || W_1 || \cdots || W_{14} || W_{15};$$
+- 剩下的48个字使用如下的方式构造：
+
 $$W_i = \sigma_1(W_{i-2}) \boxplus W_{i-7} \boxplus \sigma_0(W_{i-15}) \boxplus W_{i-16},$$ for $16 \leq i < 64$.
 
 sw|sd0|sd1|sd2|sd3|ss0|ss0_v2|ss1|ss1_v2|     $a_0$     |     $a_1$        |             $a_2$                 |    $a_3$                     |    $a_4$                         |    $a_5$                        |         $a_6$                     |         $a_7$          |     $a_8$      |    $a_9$     |
@@ -684,7 +685,8 @@ sw|sd0|sd1|sd2|sd3|ss0|ss0_v2|ss1|ss1_v2|     $a_0$     |     $a_1$        |    
 ..|...|...|...|...|...|...   |...|...   |      ...      |      ...         |              ...                  |     ...                      |     ...                          |    ...                          |         ...                       |         ...            |      ...       |              |
 0 | 0 | 0 | 0 | 0 | 0 | 0    | 0 | 0    | {0,1,2,3}     | $W_{14}^{g(13)}$ | $\texttt{spread}(W_{14}^{g(13)})$ | $W_{14}^{a(3)}$              | $W_{14}^{c(3)}$                  |                                 |                                   |                        |                |              |
 0 | 1 | 0 | 1 | 0 | 0 | 0    | 0 | 0    |       0       | $W_{14}^{d(7)}$  | $\texttt{spread}(W_{14}^{d(7)})$  | $W_{14}^{lo}$                | $W_{14}^{hi}$                    |   $W_{14}$                      |$\sigma_0(W_{15})^{lo}$            |$\sigma_1(W_{28})^{lo}$ |  $W_{23}^{lo}$ |              |
-1 | 0 | 0 | 0 | 0 | 0 | 0    | 0 | 0    |       0       | $W_{14}^{b(4)}$  | $\texttt{spread}(W_{14}^{b(4)})$  | $W_{14}^{e(1)}$              | $W_{14}^{f(1)}$                  |   $W_{30}$                      |$\sigma_0(W_{15})^{hi}$            |$\sigma_1(W_{28})^{hi}$ |  $W_{23}^{hi}$ | $carry_{30}$ |
+1 | 0 | 0 | 0 | 0 | 0 | 0    | 0 | 0    |       0       | $W_{14}^{b(4)}$  | $\texttt{spread}(W_{14}^{b(4)})$  | $W_{14}^{e(1)}$              | $W_{14}^{f(1)}$                  |   $W_{30}$                      |$\sigma_0(W_{15})^{hi}$            |$\sigma_1(W_{28})^{hi}$ |  $W_{23}^{hi}$ |
+$carry_{30}$ |
 0 | 0 | 0 | 0 | 0 | 0 | 0    | 0 | 0    | {0,1,2,3,4,5} | $R_0^{even}$     | $\texttt{spread}(R_0^{even})$     | $W_{14}^{b(4)lo}$            |$\texttt{spread}(W_{14}^{b(4)lo})$|   $W_{14}^{b(4) hi}$            |$\texttt{spread}(W_{14}^{b(4)hi})$ |                        |                |              |
 0 | 0 | 0 | 0 | 0 | 0 | 1    | 0 | 0    | {0,1,2,3,4,5} | $R_0^{odd}$      | $\texttt{spread}(R_0^{odd})$      | $\texttt{spread}(R_1^{odd})$ |$\texttt{spread}(W_{14}^{d(7)})$  |$\texttt{spread}(W_{14}^{g(13)})$| $W_{1}^{b(14)}$                   | $W_{14}^{e(1)}$        |                |              |
 0 | 0 | 0 | 0 | 0 | 0 | 0    | 0 | 0    | {0,1,2,3,4,5} | $R_1^{even}$     | $\texttt{spread}(R_1^{even})$     |    $W_{14}^{a(3)}$           |$\texttt{spread}(W_{14}^{a(3)})$  |    $W_{14}^{c(3)}$              |$\texttt{spread}(W_{14}^{c(3)})$   | $W_{14}^{f(1)}$        |                |              |
@@ -706,15 +708,15 @@ sw|sd0|sd1|sd2|sd3|ss0|ss0_v2|ss1|ss1_v2|     $a_0$     |     $a_1$        |    
 0 | 1 | 0 | 0 | 0 | 0 | 0    | 0 | 0    | {0,1,2,3,4,5} | $W_{63}^{lo}$    | $\texttt{spread}(W_{63}^{lo})$    | $W_{63}^{lo}$                | $W_{63}^{hi}$                    |   $W_{63}$                      |                                   |                        |                |              |
 0 | 0 | 0 | 0 | 0 | 0 | 0    | 0 | 0    | {0,1,2,3,4,5} | $W_{63}^{hi}$    | $\texttt{spread}(W_{63}^{hi})$    |                              |                                  |                                 |                                   |                        |                |              |
 
-Constraints:
-- `sw`: construct word using $reduce_4$
-- `sd0`: decomposition gate for $W_0, W_{62}, W_{63}$
+约束：
+- `sw`: 使用 $reduce_4$ 构造字
+- `sd0`: $W_0, W_{62}, W_{63}$ 对应的分解门
     - $W^{lo} + 2^{16} W^{hi} - W = 0$
-- `sd1`: decomposition gate for $W_{1..13}$ (split into $(3,4,11,14)$-bit pieces)
+- `sd1`: $W_{1..13}$ 的分解门 (分解为 $(3,4,11,14)$ 位的 pieces)
     - $W^{a(3)} + 2^3 W^{b(4) lo} + 2^5 W^{b(4) hi} + 2^7 W^{c(11)} + 2^{18} W^{d(14)} - W = 0$
-- `sd2`: decomposition gate for $W_{14..48}$ (split into $(3,4,3,7,1,1,13)$-bit pieces)
+- `sd2`: $W_{14..48}$ 的分解门 (分解为 $(3,4,3,7,1,1,13)$ 位的 pieces)
     - $W^{a(3)} + 2^3 W^{b(4) lo} + 2^5 W^{b(4) hi} + 2^7 W^{c(11)} + 2^{10} W^{d(14)} + 2^{17} W^{e(1)} + 2^{18} W^{f(1)} + 2^{19} W^{g(13)} - W = 0$
-- `sd3`: decomposition gate for $W_{49..61}$ (split into $(10,7,2,13)$-bit pieces)
+- `sd3`: $W_{49..61}$ 的分解门 (分解为 $(10,7,2,13)$ 位的 pieces)
     - $W^{a(10)} + 2^{10} W^{b(7) lo} + 2^{12} W^{b(7) mid} + 2^{15} W^{b(7) hi} + 2^{17} W^{c(2)} + 2^{19} W^{d(13)} - W = 0$
 
 ### Compression 区域 
