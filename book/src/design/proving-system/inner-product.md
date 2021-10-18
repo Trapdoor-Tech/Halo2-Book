@@ -1,11 +1,9 @@
-# Inner product argument
+# 内积证明
 
-Halo 2 uses a polynomial commitment scheme for which we can create polynomial commitment
-opening proofs, based around the Inner Product Argument.
+Halo2 使用的多项式承诺算法，其多项式承诺打开证明是基于内积证明的。
 
-> TODO: Explain Halo 2's variant of the IPA.
->
-> It is very similar to $\text{PC}_\text{DL}.\text{Open}$ from Appendix A.2 of [BCMS20].
-> See [this comparison](comparison.md#bcms20-appendix-a2) for details.
+> 待办事项：解释 Halo2 所使用的IPA变体。
+
+> 它非常类似于论文[BCMS20]附录A.2节的 $\text{PC}_\text{DL}.\text{Open}$。详细细节参见[此处比较](comparison.md#bcms20-appendix-a2)。
 >
 > [BCMS20]: https://eprint.iacr.org/2020/499
