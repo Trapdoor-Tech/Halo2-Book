@@ -7,13 +7,13 @@ in their ***public inputs***. The prover will also need to show that they know s
 ***private inputs*** that make the statement hold.
 
 通常，在给定的协议中，我们想要证明不同于它们的公共输入的语句族。
-证明者需要展示他们知道一些隐私输入来make the statement hold
+证明者需要展示他们知道一些隐私输入来使语句成立
 
 To do this we write down a ***relation***, $\mathcal{R}$, that specifies which
 combinations of public and private inputs are valid.
 
 为了做到上面所说的, 我们描绘了一个***关系式***, $\mathcal{R}$, 
-这个关系式指定哪些公共和隐私输入组合是有效的。
+这个关系式指定哪些公共输入和隐私输入组合是有效的。
 
 
 > The terminology above is intended to be aligned with the
@@ -31,14 +31,14 @@ The language that we use to express circuits for a particular proof system is ca
 ***arithmetization***. Usually, an arithmetization will define circuits in terms of
 polynomial constraints on variables over a field.
 
-我们用来表示特定证明系统的电路的语言叫做***arithmetization***
-通常，一个算法会在多项式约束条件下定义电路,其中变量在一个域中 。
+我们用来表示特定证明系统的电路的语言叫做***arithmetization***。
+通常，一个算法会在多项式约束条件下定义电路,多项式中的变量在一个域中 。
 
 
 > The _process_ of expressing a particular relation as a circuit is also sometimes called
 > "arithmetization", but we'll avoid that usage.
 
-表达一个特定关系的过程叫做电路, 有时也叫作 "算法", 但是我们避免这种称呼.
+> 表达一个特定关系的过程叫做电路, 有时也叫作 "算法", 但是我们避免这种称呼.
 
 To create a proof of a statement, the prover will need to know the private inputs,
 and also intermediate values, called ***advice*** values, that are used by the circuit.
@@ -68,7 +68,7 @@ The private inputs and advice values are collectively called a ***witness***.
 For example, suppose that we want to prove knowledge of a preimage $x$ of a
 hash function $H$ for a digest $y$:
 
-举个例子
+举个例子, 假设我们想证明原像 $x$ 经过 hash函数 $H$ 所得到 $y$
 
 * The private input would be the preimage $x$.
 
@@ -99,6 +99,7 @@ such proofs cannot falsely convince a verifier is called ***soundness***.
 
 ***非交互式argument***允许prover给给定的语句和witness创建一个proof.
 证明是一个可以使验证者确信存在witness 并使数据成立的数据.
+这种证明不能错误地说服一个验证者的安全特性称为可靠性。
 
 A ***Non-interactive Argument of Knowledge*** (***NARK***) further convinces the verifier
 that the prover _knew_ a witness for which the statement holds. This security property is
@@ -159,7 +160,7 @@ size— then we say that it is ***succinct***. A succinct NARK is called a ***SN
 > we'll avoid that term since it's ambiguous for SNARKs that support amortized or recursive
 > verification, which we'll get to later.
 
-> 根据这个定义, 一个SNARK 不需要?
+> 根据这个定义, 一个SNARK 不需要关于电路大小的多项式对数级验证时间.
 > 有些论文使用术语***efficient***来描述具有这种性质的SNARK，
 > 但我们将避免使用这个术语，因为它对于支持平摊或递归验证的SNARKs来说是语义是模糊的，我们稍后会讲到
 
