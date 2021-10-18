@@ -1,11 +1,5 @@
-# Lookup tables
+# 查找表
 
-In normal programs, you can trade memory for CPU to improve performance, by pre-computing
-and storing lookup tables for some part of the computation. We can do the same thing in
-halo2 circuits!
+在正常的程序中，你可以采用内存换CPU的方法来提高性能，即为计算的某一部分预计算出查找表，并存在内存中。我们也可以在 halo2 电路中实现类似的策略。
 
-A lookup table can be thought of as enforcing a *relation* between variables, where the relation is expressed as a table.
-Assuming we have only one lookup argument in our constraint system, the total size of tables is constrained by the size of the circuit:
-each table entry costs one row, and it also costs one row to do each lookup.
-
-TODO
+我们可以将一个查找表理解成变量之间存在一个关系，该关系可以表示成一个表。假设在我们的约束系统中仅有一个查找证明，那么查找表的总大小的上限为电路规模，即每一个表项占用一行，每一个表查找占用一行。
