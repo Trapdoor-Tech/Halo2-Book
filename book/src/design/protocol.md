@@ -1,38 +1,23 @@
-# Protocol Description
+# Halo2 协议
 
-## Preliminaries
+## 预备工作
 
-We take $\sec$ as our security parameter, and unless explicitly noted all
-algorithms and adversaries are probabilistic (interactive) Turing machines that
-run in polynomial time in this security parameter. We use $\negl$ to denote a
-function that is negligible in $\sec$.
+我们定义 $\sec$ 作为一个安全参数，且除明确标注外，文档中所有的算法和 adversaries 都是在该安全参数下运行时间为多项式的概率型图灵机。我们使用 $\negl$ 表示一个在 $\sec$ 下可忽略的函数。
 
-### Cryptographic Groups
+### 密码学群
 
-We let $\group$ denote a cyclic group of prime order $p$. The identity of a
-group is written as $\zero$. We refer to the scalars of elements in $\group$ as
-elements in a scalar field $\field$ of size $p$. Group elements are written in
-capital letters while scalars are written in lowercase or Greek letters. Vectors
-of scalars or group elements are written in boldface, i.e. $\mathbf{a} \in
-\field^n$ and $\mathbf{G} \in \group^n$. Group operations are written additively
-and the multiplication of a group element $G$ by a scalar $a$ is written $[a]
-G$.
+我们令 $\group$ 表示一个阶为素数 $p$ 的循环群，群的单位元记作 $\zero$ 。将 $\group$ 中元素的标量表示为阶为 $p$ 的标量域 $\field$ 中的元素。群元素用大写字母表示，标量则用小写字母或希腊字母表示。群元素或标量所组成的向量用粗体字表示，例如 $\mathbf{a} \in \field^n$ 以及 $\mathbf{G} \in \group^n$ 。群上的运算记作加法，群元素 $G$ 和标量 $a$ 的乘法记作 $[a]G$ 。
 
-We will often use the notation $\langle \mathbf{a}, \mathbf{b} \rangle$ to
-describe the inner product of two like-length vectors of scalars $\mathbf{a},
-\mathbf{b} \in \field^n$. We also use this notation to represent the linear
-combination of group elements such as $\langle \mathbf{a}, \mathbf{G} \rangle$
-with $\mathbf{a} \in \field^n, \mathbf{G} \in \group^n$, computed in practice by
-a multiscalar multiplication.
+我们会经常使用 $\langle \mathbf{a}, \mathbf{b} \rangle$ 表示长度相等的， $\field^n$ 上 $\mathbf{a}, \mathbf{b}$ 两个向量的内积。同样地也用这种表示法描述群元素的一个线性组合 $\langle \mathbf{a}, \mathbf{G} \rangle$ ，其中 $\mathbf{a} \in \field^n, \mathbf{G} \in \group^n$ ，该内积的计算使用标量乘法。
 
-We use $\mathbf{0}^n$ to describe a vector of length $n$ that contains only
-zeroes in $\field$.
+我们使用 $\mathbf{0}^n$ 描述域 $\field$ 中长度为 $n$ 的，只包含零元的向量。
 
-> **Discrete Log Relation Problem.** The advantage metric
+> ** 离散对数关系问题 ** 
+Advantage metric
 $$
 \adv^\dlrel_{\group,n}(\a, \sec) = \textnormal{Pr} \left[ \mathsf{G}^\dlrel_{\group,n}(\a, \sec) \right]
 $$
-> is defined with respect the following game.
+> 定义为以下的 game 。
 $$
 \begin{array}{ll}
 &\underline{\bold{Game} \, \mathsf{G}^\dlrel_{\group,n}(\a, \sec):} \\
@@ -42,15 +27,9 @@ $$
 \end{array}
 $$
 
-Given an $n$-length vector $\mathbf{G} \in \group^n$ of group elements, the
-_discrete log relation problem_ asks for $\mathbf{g} \in \field^n$ such that
-$\mathbf{g} \neq \mathbf{0}^n$ and yet $\innerprod{\mathbf{g}}{\mathbf{G}} =
-\zero$, which we refer to as a _non-trivial_ discrete log relation. The hardness
-of this problem is tightly implied by the hardness of the discrete log problem
-in the group as shown in Lemma 3 of [[JT20]](https://eprint.iacr.org/2020/1213).
-Formally, we use the game $\dlgame$ defined above to capture this problem.
+给定一个长度为 $n$ 的向量 $\mathbf{G} \in \group^n$ ， _离散对数关系问题_ 指寻找一个 $\mathbf{g} \in \field^n$ 使得 $\mathbf{g} \neq \mathbf{0}^n$ 且 $\innerprod{\mathbf{g}}{\mathbf{G}} = \zero$ （我们称为 _非平凡_ 离散对数关系）。该问题的难度和群中的离散对数问题紧密相连（[[JT20]](https://eprint.iacr.org/2020/1213) 引理3）。我们使用上面定义的 game $\dlgame$ 描述该问题。
 
-### Interactive Proofs
+### 交互式证明
 
 _Interactive proofs_ are a triple of algorithms $\ip = (\setup, \prover,
 \verifier)$. The algorithm $\setup(1^\sec)$ produces as its output some _public
@@ -62,36 +41,23 @@ _transcript_ of their interaction, contains all of the messages sent between
 $\prover$ and $\verifier$. At the end of the protocol, the verifier outputs a
 decision bit.
 
-### Zero knowledge Arguments of Knowledge
+交互式证明是一组算法 $\ip = (\setup, \prover, \verifier)$ 。 $\setup(1^\sec)$ 算法生成某些被 $\pp$ 引用的 _公开参数_ 。 prover $\prover$ 和 verifier $\verifier$ 是能够访问 $\pp$ 的交互式机器，另外我们用 $\langle \prover(x), \verifier(y) \rangle$ 表示在 $\prover$ 和 $\verifier$ 之间执行的两方协议，其输入为 $x$ 和 $y$ 。协议的输出是一个transcript ，包含了所有 $\prover$ 和 $\verifier$ 之间交互的消息。在协议的最后， verifier 输出一个决策位，表示它是否接受 prover 的证明。
 
-Proofs of knowledge are interactive proofs where the prover aims to convince the
-verifier that they know a witness $w$ such that $(x, w) \in \relation$ for a
-statement $x$ and polynomial-time decidable relation $\relation$. We will work
-with _arguments_ of knowledge which assume computationally-bounded provers.
+### 关于知识的零知识证明
 
-We will analyze arguments of knowledge through the lens of four security
-notions.
+知识证明是一种交互式证明，是 prover 试图向 verifier 证明它知道一个 witness $w$ 使得 $(x, w) \in \relation$ ，其中 $x$ 为一个 statement ， $\relation$ 为多项式时间内可决定的 relation。我们假设 prover 是计算能力有限的，然后我们描述 arguments of knowledge 。
 
-* **Completeness:** If the prover possesses a valid witness, can they _always_
-  convince the verifier? It is useful to understand this property as it can have
-  implications for the other security notions.
-* **Soundness:** Can a cheating prover falsely convince the verifier of the
-  correctness of a statement that is not actually correct? We refer to the
-  probability that a cheating prover can falsely convince the verifier as the
-  _soundness error_.
-* **Knowledge soundness:** When the verifier is convinced the statement is
-  correct, does the prover actually possess ("know") a valid witness? We refer
-  to the probability that a cheating prover falsely convinces the verifier of
-  this knowledge as the _knowledge error_.
-* **Zero knowledge:** Does the prover learn anything besides that which can be
-  inferred from the correctness of the statement and the prover's knowledge of a
-  valid witness?
+我们将从四个角度分析 arguments of knowledge 的安全程度：
 
-First, we will visit the simple definition of completeness.
+* **完备性:** 如果 prover 有一个有效的 witness ，它是否 _总是_ 能够向 verifier 证明？理解这一点有助于理解以下的性质
+* **可靠性:** 一个试图作弊的 prover 能否向 verifier 证明一个错误的 statement ? 我们将这种情况称为 _可靠性错误_ 。
+* **知识可靠性:** 当 verifier 确信 statement 是正确的时候， prover 是否实际拥有（“知道”）一个有效的 witness ？我们将 verifier 确信，但 prover 并不拥有有效 witness 的情况称为 _知识错误_ 。
+* **零知识性:** 除了 statement 的正确性和 prover 实际拥有该有效 witness 之外， ???? 是否还获得了额外的知识？
 
-> **Perfect Completeness.** An interactive argument $(\setup, \prover, \verifier)$
-> has _perfect completeness_ if for all polynomial-time decidable
-> relations $\relation$ and for all non-uniform polynomial-time adversaries $\a$
+首先，我们给出完备性的一个简单定义：
+
+> **完美完备性** 一个交互式 argument $(\setup, \prover, \verifier)$
+> 是 _完美完备的_ 当对于所有的多项式时间内可决定的 releation $\relation$ 和所有 non-uniform 多项式时间 adversaries $\a$ 都有
 $$
 Pr \left[
     (x, w) \notin \relation \lor
@@ -104,41 +70,25 @@ Pr \left[
 \right] = 1
 $$
 
-#### Soundness
+#### 可靠性
 
-Complicating our analysis is that although our protocol is described as an
-interactive argument, it is realized in practice as a _non-interactive argument_
-through the use of the Fiat-Shamir transformation.
+我们分析的复杂性在于：协议是交互式的，但实际上通过 Fiat-Shamir 变换，它被实现为 _非交互式_ 的。
 
-> **Public coin.** We say that an interactive argument is _public coin_ when all
-> of the messages sent by the verifier are each sampled with fresh randomness.
+> **Public coin** 我们将那种 verifier 发送的每个消息都来自新的随机性采样的交互式 argument 称为 public coin 式。
+> 
+> **Fiat-Shamir 变换** 将 verifier 发送的消息替换为密码学上 strong 的哈希函数以产生足够的随机性，即可将 public coin 式 argument 在 _随机预言机模型_ 中转换为 _非交互式_ 。
 
-> **Fiat-Shamir transformation.** In this transformation an interactive, public
-> coin argument can be made _non-interactive_ in the _random oracle model_ by
-> replacing the verifier algorithm with a cryptographically strong hash function
-> that produces sufficiently random looking output.
+这种形式变换意味着在实际的协议中，一个试图作弊的 prover 可以轻易的“回卷”，从某个时间点发送新的消息给 verifier 。因此研究变换之后的安全性是非常重要的。幸运的是我们可以依照 Ghoshal 和 Tessaro 提出的框架 ([[GT20]]((https://eprint.iacr.org/2020/1351))) 来进行分析。
 
-This transformation means that in the concrete protocol a cheating prover can
-easily "rewind" the verifier by forking the transcript and sending new messages
-to the verifier. Studying the concrete security of our construction _after_
-applying this transformation is important. Fortunately, we are able to follow a
-framework of analysis by Ghoshal and Tessaro
-([[GT20]]((https://eprint.iacr.org/2020/1351))) that has been applied to
-constructions similar to ours.
+我们通过 _状态恢复可靠性_ 的概念分析我们的协议。在该模型中，一个作弊的 prover 可以“回卷” verifier 至之前任意的状态。如果 prover 能通过这种方式使 verifier 接受证明，则是对我们协议一次成功的攻击。
 
-We will study our protocol through the notion of _state-restoration soundness_.
-In this model the (cheating) prover is allowed to rewind the verifier to any
-previous state it was in. The prover wins if they are able to produce an
-accepting transcript.
-
-> **State-Restoration Soundness.** Let $\ip$ be an interactive argument with $r
-> = r(\sec)$ verifier challenges and let the $i$th challenge be sampled from
-> $\ch_i$. The advantage metric
+> **状态恢复可靠性** 令 $\ip$ 是一个交互式的 argument ，包含有 $r > = r(\sec)$ 个 verifier 挑战。令第 $i$th 个挑战从 $\ch_i$ 中采样获得。则一个状态恢复 prover $\prover$ 的 advantage metric
 $$
 \adv^\srs_\ip(\prover, \sec) = \textnormal{Pr} \left[ \srs^\ip_\prover(\sec) \right]
 $$
-> of a state restoration prover $\prover$ is defined with respect to the
-> following game.
+
+通过以下 game 定义：
+
 $$
 \begin{array}{ll}
 \begin{array}{ll}
@@ -164,49 +114,29 @@ $$
 \end{array}
 $$
 
-As shown in [[GT20]]((https://eprint.iacr.org/2020/1351)) (Theorem 1) state
-restoration soundness is tightly related to soundness after applying the
-Fiat-Shamir transformation.
+如 [[GT20]]((https://eprint.iacr.org/2020/1351)) （定理1）所示，状态恢复可靠性和 Fiat-Shamir 变换后的可靠性紧密相关。
 
-#### Knowledge Soundness
+#### 知识可靠性
 
-We will show that our protocol satisfies a strengthened notion of knowledge
-soundness known as _witness extended emulation_. Informally, this notion states
-that for any successful prover algorithm there exists an efficient _emulator_
-that can extract a witness from it by rewinding it and supplying it with fresh
-randomness.
+我们将会展示我们的协议满足 _witness extended emulation_ ，即一种加强的知识可靠性。这意味着，对于任意成功的 prover 算法，都存在一个高效的 _emulator_ ，通过“回卷”和提供一些新构造的随机数， _emulator_ 可以从算法中提取出 witness 。
 
-However, we must slightly adjust our definition of witness extended emulation to
-account for the fact that our provers are state restoration provers and can
-rewind the verifier. Further, to avoid the need for rewinding the state
-restoration prover during witness extraction we study our protocol in the
-algebraic group model.
+但我们必须调整一下我们对于 _witness extended emulation_ 的定义，以描述一个事实，即 prover 都是状态恢复 prover ，能够“回卷” verifier 。另外，为避免在提取 witness 时回卷 prover，我们在 _代数群模型_ 中研究我们的协议。
 
-> **Algebraic Group Model (AGM).** An adversary $\alg{\prover}$ is said to be
-> _algebraic_ if whenever it outputs a group element $X$ it also outputs a
-> _representation_ $\mathbf{x} \in \field^n$ such that $\langle \mathbf{x}, \mathbf{G} \rangle = X$ where $\mathbf{G} \in \group^n$ is the vector of group
-> elements that $\alg{\prover}$ has seen so far.
-> Notationally, we write $\left[X\right]$ to describe a group element $X$ enhanced
-> with this representation. We also write $[X]^{\mathbf{G}}_i$ to identify the
-> component of the representation of $X$ that corresponds with $\mathbf{G}_i$. In
-> other words,
+> **代数群模型（Algebraic Group Model, AGM）** 若 Adversary $\alg{\prover}$ 在每次输出群元素
+> $X$ 的时候同时也输出 $X$ 在 $\field^n$ 中的一个 _表示_ $\mathbf{x} \in \field^n$ ，使得 $\langle \mathbf{x}, \mathbf{G} \rangle = X$ ， $\mathbf{G} \in \group^n$ 是 $\alg{\prover}$ 所知的群元素的向量，则我们说 $\alg{\prover}$ 是 _代数的_ 。
+> 
+> 我们用 $\left[X\right]$ 表示群元素 $X$ ，定义 $[X]^{\mathbf{G}}_i$ 为 $X$ 用 $\mathbf{G}_i$ 表示的系数，即
 $$
 X = \sum\limits_{i=0}^{n - 1} \left[ [X]^{\mathbf{G}}_i \right] \mathbf{G}_i
 $$
 
-The algebraic group model allows us to perform so-called "online" extraction for
-some protocols: the extractor can obtain the witness from the representations
-themselves for a single (accepting) transcript.
+代数群模型允许我们对某些协议进行所谓的“在线”提取： extractor 可以从某个被接受的 transcript 表示方式中提取出 witness 。
 
-> **State Restoration Witness Extended Emulation** Let $\ip$ be an interactive
-> argument for relation $\relation$ with $r = r(\sec)$ challenges. We define for
-> all non-uniform algebraic provers $\alg{\prover}$, extractors $\extractor$,
-> and computationally unbounded distinguishers $\distinguisher$ the advantage
-> metric
+> **状态恢复 witness extended emulation** 令 $\ip$ 是一个 relation $\relation$ 的交互式 argument ，有 $r = r(\sec)$ 个挑战。我们定义对所有 non-uniform 的代数 prover $\alg{\prover}$ ， extractor $\extractor$ ，以及拥有无限计算能力的 distinguisher $\distinguisher$ ，其 advantage metric 
 $$
 \adv^\srwee_{\ip, \relation}(\alg{\prover}, \distinguisher, \extractor, \sec) = \textnormal{Pr} \left[ \weereal^{\prover,\distinguisher}_{\ip,\relation}(\sec) \right] - \textnormal{Pr} \left[ \weeideal^{\extractor,\prover,\distinguisher}_{\ip,\relation}(\sec) \right]
 $$
-> is defined with the respect to the following games.
+> 定义为如下 game 的衡量？？？
 $$
 \begin{array}{ll}
 \begin{array}{ll}
@@ -250,18 +180,11 @@ $$
 \end{array}
 $$
 
-#### Zero Knowledge
+#### 零知识性
 
-We say that an argument of knowledge is _zero knowledge_ if the verifier also
-does not learn anything from their interaction besides that which can be learned
-from the existence of a valid $w$. More formally,
+若 verifier 在协议的交互中除了知道存在一个有效的 $w$ 之外没有获得任何其他额外的知识，则我们说该关于知识的 argument 是 _零知识性_ 的。
 
-> **Perfect Special Honest-Verifier Zero Knowledge.** A public coin interactive
-> argument $(\setup, \prover, \verifier)$ has _perfect special honest-verifier
-> zero knowledge_ (PSHVZK) if for all polynomial-time decidable relations
-> $\relation$ and for all $(x, w) \in \relation$ and for all non-uniform
-> polynomial-time adversaries $\a_1, \a_2$ there exists a probabilistic
-> polynomial-time simulator $\sim$ such that
+> **完美 special 诚实 verifier 零知识性** 一个交互式的 public coin argument $(\setup, \prover, \verifier)$ 拥有 _完美 special 诚实 verifier 零知识性_ (PSHVZK) 仅当对于所有多项式时间可决定的 relation $\relation$ 和所有 $(x, w) \in \relation$ 及所有 non-uniform 多项式时间的 adversaries $\a_1$ ， $\a_2$ ，存在一个概率性的多项式时间 simulator $\sim$ ，使得
 $$
 \begin{array}{rl}
 &Pr \left[ \a_1(\sigma, x, \tr) = 1 \, \middle| \,
@@ -281,22 +204,13 @@ $$
 \right]
 \end{array}
 $$
-> where $\rho$ is the internal randomness of the verifier.
+> $\rho$ 表示 verifier 内在的随机性。
 
-In this (common) definition of zero-knowledge the verifier is expected to act
-"honestly" and send challenges that correspond only with their internal
-randomness; they cannot adaptively respond to the prover based on the prover's
-messages. We use a strengthened form of this definition that forces the simulator
-to output a transcript with the same (adversarially provided) challenges that
-the verifier algorithm sends to the prover.
+在这种零知识性的定义下， verifier 预期将会“诚实地”交互，并发送只与它的内在随机性相关的挑战。它们不能根据 prover 发送的消息改变自己的挑战。我们使用该定义的一种强化形式，要求 simulator 输出包含和 verifier 所发送的相同的挑战的 transcript 。
 
-## Protocol
+## 协议
 
-Let $\omega \in \field$ be a $n = 2^k$ primitive root of unity forming the
-domain $D = (\omega^0, \omega^1, ..., \omega^{n - 1})$ with $t(X) = X^n - 1$ the
-vanishing polynomial over this domain. Let $k, n_g, n_a$ be positive integers.
-We present an interactive argument $\halo = (\setup, \prover, \verifier)$ for
-the relation
+令 $\omega \in \field$ 是 $n = 2^k$ 的单位根，组成一个 domain $D = (\omega^0, \omega^1, ..., \omega^{n - 1})$ ， $t(X) = X^n - 1$ 为该 domain 上的消去多项式。令 $k, n_g, n_a$ 为正整数。对于 relation 
 $$
 \relation = \left\{
 \begin{array}{ll}
@@ -315,42 +229,44 @@ a_0(X), a_1(X, C_0), ..., a_{n_a - 1}(X, C_0, C_1, ..., C_{n_a - 1})
 \end{array}
 \right\}
 $$
-where $a_0, a_1, ..., a_{n_a - 1}$ are (multivariate) polynomials with degree $n - 1$ in $X$ and $g$ has degree $n_g(n - 1)$ in $X$.
 
-$\setup(\sec)$ returns $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in \group)$.
+我们提出一种交互式 argument $\halo = (\setup, \prover, \verifier)$ ，其中 $a_0, a_1, ..., a_{n_a - 1}$ 是 $X$ 中度数为 $n -1$ 的多变量多项式， $g$ 在 $X$ 中的度数为 $n_g(n - 1)$ 。
 
-For all $i \in [0, n_a)$:
-* Let $\mathbf{p_i}$ be the exhaustive set of integers $j$ (modulo $n$) such that $a_i(\omega^j X, \cdots)$ appears as a term in $g(X, \cdots)$.
-* Let $\mathbf{q}$ be a list of distinct sets of integers containing $\mathbf{p_i}$ and the set $\mathbf{q_0} = \{0\}$.
-* Let $\sigma(i) = \mathbf{q}_j$ when $\mathbf{q}_j = \mathbf{p_i}$.
+$\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in \group)$.
 
-Let $n_q$ denote the size of $\mathbf{q}$, and let $n_e$ denote the size of every $\mathbf{p_i}$ without loss of generality.
+对于所有的 $i \in [0, n_a)$:
+* 令 $\mathbf{p_i}$ 为整数 $j$ （模 $n$ ）的完备集，使得 $a_i(\omega^j X, \cdots)$ 为 $g(X, \cdots)$ 中的成员。
+* 令 $\mathbf{q}$ 为一组包含 $\mathbf{p}_i$ 的不相交的整数集合， $\mathbf{q_0} = \{0\}$.
+* 令 $\sigma(i) = \mathbf{q}_j$ ，若 $\mathbf{q}_j = \mathbf{p_i}$.
 
-In the following protocol, we take it for granted that each polynomial $a_i(X, \cdots)$ is defined such that $n_e + 1$ blinding factors are freshly sampled by the prover and are each present as an evaluation of $a_i(X, \cdots)$ over the domain $D$.
+令 $n_q$ 表示集合 $\mathbf{q}$ 的大小，不失一般性地，令 $n_e$ 表示每个 $\mathbf{p_i}$ 集合的大小。
 
-1. $\prover$ and $\verifier$ proceed in the following $n_a$ rounds of interaction, where in round $j$ (starting at $0$)
-  * $\prover$ sets $a'_j(X) = a_j(X, c_0, c_1, ..., c_{j - 1})$
-  * $\prover$ sends a hiding commitment $A_j = \innerprod{\mathbf{a'}}{\mathbf{G}} + [\cdot] W$ where $\mathbf{a'}$ are the coefficients of the univariate polynomial $a'_j(X)$ and $\cdot$ is some random, independently sampled blinding factor elided for exposition.
-  * $\verifier$ responds with a challenge $c_j$.
-2. $\prover$ and $\verifier$ set $g'(X) = g(X, c_0, c_1, ..., c_{n_a - 1})$.
-3. $\prover$ sends a commitment $R = \innerprod{\mathbf{r}}{\mathbf{G}} + [\cdot] W$ where $\mathbf{r} \in \field^n$ are the coefficients of a randomly sampled univariate polynomial $r(X)$ of degree $n - 1$.
-4. $\prover$ computes univariate polynomial $h(X) = \frac{g'(X)}{t(X)}$ of degree $n_g(n - 1) - n$.
-5. $\prover$ computes at most $n - 1$ degree polynomials $h_0(X), h_1(X), ..., h_{n_g - 2}(X)$ such that $h(X) = \sum\limits_{i=0}^{n_g - 2} X^{ni} h_i(X)$.
-6. $\prover$ sends commitments $H_i = \innerprod{\mathbf{h_i}}{\mathbf{G}} + [\cdot] W$ for all $i$ where $\mathbf{h_i}$ denotes the vector of coefficients for $h_i(X)$.
-7. $\verifier$ responds with challenge $x$ and computes $H' = \sum\limits_{i=0}^{n_g - 2} [x^{ni}] H_i$.
-8. $\prover$ sets $h'(X) = \sum\limits_{i=0}^{n_g - 2} x^{ni} h_i(X)$.
-9. $\prover$ sends $r = r(x)$ and for all $i \in [0, n_a)$ sends $\mathbf{a_i}$ such that $(\mathbf{a_i})_j = a'_i(\omega^{(\mathbf{p_i})_j} x)$ for all $j \in [0, n_e]$.
-10. For all $i \in [0, n_a)$ $\prover$ and $\verifier$ set $s_i(X)$ to be the lowest degree univariate polynomial defined such that $s_i(\omega^{(\mathbf{p_i})_j} x) = (\mathbf{a_i})_j$ for all $j \in [0, n_e)$.
-11. $\verifier$ responds with challenges $x_1, x_2$ and initializes $Q_0, Q_1, ..., Q_{n_q - 1} = \zero$.
-  * Starting at $i=0$ and ending at $n_a - 1$ $\verifier$ sets $Q_{\sigma(i)} := [x_1] Q_{\sigma(i)} + A_i$.
-  * $\verifier$ finally sets $Q_0 := [x_1^2] Q_i + [x_1] H' + R$.
-12. $\prover$ initializes $q_0(X), q_1(X), ..., q_{n_q - 1}(X) = 0$.
-  * Starting at $i=0$ and ending at $n_a - 1$ $\prover$ sets $q_{\sigma(i)} := x_1 q_{\sigma(i)} + a'(X)$.
-  * $\prover$ finally sets $q_0(X) := x_1^2 q_0(X) + x_1 h'(X) + r(X)$.
-13. $\prover$ and $\verifier$ initialize $r_0(X), r_1(X), ..., r_{n_q - 1}(X) = 0$.
-  * Starting at $i=0$ and ending at $n_a - 1$ $\prover$ and $\verifier$ set $r_{\sigma(i)}(X) := x_1 r_{\sigma(i)}(X) + s_i(X)$.
-  * Finally $\prover$ and $\verifier$ set $r_0 := x_1^2 r_0 + x_1 h + r$ and where $h$ is computed by $\verifier$ as $\frac{g'(x)}{t(x)}$ using the values $r, \mathbf{a}$ provided by $\prover$.
-14. $\prover$ sends $Q' = \innerprod{\mathbf{q'}}{\mathbf{G}} + [\cdot] W$ where $\mathbf{q'}$ defines the coefficients of the polynomial
+在下述的协议中，我们默认 $n_e + 1$ 个盲因子均为 prover 新采样的，且每个盲因子都表示为 domain $D$ 上多项式 $a_i(X, \cdots)$ 的值。
+
+1. $\prover$ 和 $\verifier$ 进行 $n_a$ 轮交互，在第 $j$ 轮中（轮次从0开始）
+  * $\prover$ 设置 $a'_j(X) = a_j(X, c_0, c_1, ..., c_{j - 1})$
+  * $\prover$ 发送一个 hiding commitment $A_j = \innerprod{\mathbf{a'}}{\mathbf{G}} + [\cdot] W$ ， $\mathbf{a'}$ 为单变量多项式 $a'_j(X)$ 的系数， $\cdot$ 为某个随机且独立采样的盲因子。
+  * $\verifier$ 回应 $\prover$ 一个挑战 $c_j$.
+2. $\prover$ 和 $\verifier$ 设置 $g'(X) = g(X, c_0, c_1, ..., c_{n_a - 1})$.
+3. $\prover$ 发送一个承诺 $R = \innerprod{\mathbf{r}}{\mathbf{G}} + [\cdot] W$ ， $\mathbf{r} \in \field^n$ 为随机采样的多项式 $r(X)$ 的系数，多项式系数为 $n - 1$ 。
+4. $\prover$ 计算单变量多项式 $h(X) = \frac{g'(X)}{t(X)}$ ，其度数为 $n_g(n - 1) - n$.
+5. $\prover$ 计算度数至多为 $n - 1$ 的多项式 $h_0(X), h_1(X), ..., h_{n_g - 2}(X)$ ，使得 $h(X) = \sum\limits_{i=0}^{n_g - 2} X^{ni} h_i(X)$.
+6. $\prover$ 将所有的承诺 $H_i = \innerprod{\mathbf{h_i}}{\mathbf{G}} + [\cdot] W$ 发送给 $\verifier$ ，其中 $h_i(X)$ 为多项式系数组成的向量。
+7. $\verifier$ 回应一个挑战 $x$ 并计算 $H' = \sum\limits_{i=0}^{n_g - 2} [x^{ni}] H_i$.
+8. $\prover$ 设置 $h'(X) = \sum\limits_{i=0}^{n_g - 2} x^{ni} h_i(X)$.
+9. $\prover$ 发送 $r = r(x)$ 并且对所有的 $i \in [0, n_a)$ ，发送 $\mathbf{a_i}$ ，使得对所有的 $j \in [0, n_e]$ ，都有 $(\mathbf{a_i})_j = a'_i(\omega^{(\mathbf{p_i})_j} x)$ 。
+10. 对所有的 $i \in [0, n_a)$ ， $\prover$ 和 $\verifier$ 设置 $s_i(X)$ 为度数最低的单变量多项式，使得对所有的 $j \in [0, n_e)$ ， $s_i(\omega^{(\mathbf{p_i})_j} x) = (\mathbf{a_i})_j$ 。
+11. $\verifier$ 发送两个挑战 $x_1, x_2$ 以回应，并初始化 $Q_0, Q_1, ..., Q_{n_q - 1} = \zero$.
+  * 对于从 $i=0$ 到 $i =n_a - 1$ ， $\verifier$ 设置 $Q_{\sigma(i)} := [x_1] Q_{\sigma(i)} + A_i$.
+  * 最后 $\verifier$ 设置 $Q_0 := [x_1^2] Q_i + [x_1] H' + R$.
+12. $\prover$ 初始化 $q_0(X), q_1(X), ..., q_{n_q - 1}(X) = 0$.
+  * 从 $i=0$ 开始到 $i=n_a - 1$ ， $\prover$ 设置 $q_{\sigma(i)} := x_1 q_{\sigma(i)} + a'(X)$.
+  * 最后 $\prover$ 设置 $q_0(X) := x_1^2 q_0(X) + x_1 h'(X) + r(X)$.
+13. $\prover$ 和 $\verifier$ 初始化 $r_0(X), r_1(X), ..., r_{n_q - 1}(X) = 0$.
+  * 从 $i=0$ 开始到 $i=n_a - 1$ ， $\prover$ 和 $\verifier$ 设置 $r_{\sigma(i)}(X) := x_1 r_{\sigma(i)}(X) + s_i(X)$.
+  * 最后 $\prover$ 和 $\verifier$ 设置 $r_0 := x_1^2 r_0 + x_1 h + r$ ，由 $\verifier$ 使用 $r$ 计算 $h = \frac{g'(x)}{t(x)}$ ？？？，由 $\prover$ 提供 $\mathbf{a}$ 。
+14. $\prover$ 发送 $Q' = \innerprod{\mathbf{q'}}{\mathbf{G}} + [\cdot] W$ ，其中 $\mathbf{q'}$ 为下列多项式的系数：
+
 $$q'(X) = \sum\limits_{i=0}^{n_q - 1}
 
 x_2^i
@@ -366,10 +282,10 @@ x_2^i
   }
   \right)
 $$
-15. $\verifier$ responds with challenge $x_3$.
-16. $\prover$ sends $\mathbf{u} \in \field^{n_q}$ such that $\mathbf{u}_i = q_i(x_3)$ for all $i \in [0, n_q)$.
-17. $\verifier$ responds with challenge $x_4$.
-18. $\prover$ and $\verifier$ set $P = Q' + x_4 \sum\limits_{i=0}^{n_q - 1} [x_4^i] Q_i$ and $v = $
+15. $\verifier$ 回以挑战 $x_3$.
+16. $\prover$ 发送 $\mathbf{u} \in \field^{n_q}$ 使得 $\mathbf{u}_i = q_i(x_3)$ for all $i \in [0, n_q)$.
+17. $\verifier$ 回以挑战 $x_4$.
+18. $\prover$ 和 $\verifier$ 设置 $P = Q' + x_4 \sum\limits_{i=0}^{n_q - 1} [x_4^i] Q_i$ ， $v = $
 $$
 \sum\limits_{i=0}^{n_q - 1}
 \left(
@@ -389,15 +305,15 @@ x_2^i
 +
 x_4 \sum\limits_{i=0}^{n_q - 1} x_4 \mathbf{u}_i
 $$
-19. $\prover$ sets $p(X) = q'(X) + [x_4] \sum\limits_{i=0}^{n_q - 1} x_4^i q_i(X)$.
-20. $\prover$ samples a random polynomial $s(X)$ of degree $n - 1$ with a root at $x_3$ and sends a commitment $S = \innerprod{\mathbf{s}}{\mathbf{G}} + [\cdot] W$ where $\mathbf{s}$ defines the coefficients of $s(X)$.
-21. $\verifier$ responds with challenges $\xi, z$.
-22. $\prover$ and $\verifier$ set $P' = P - [v] \mathbf{G}_0 + [\xi] S$.
-23. $\prover$ sets $p'(X) = p(X) - v + \xi s(X)$.
-24. Initialize $\mathbf{p'}$ as the coefficients of $p'(X)$ and $\mathbf{G'} = \mathbf{G}$ and $\mathbf{b} = (x_3^0, x_3^1, ..., x_3^{n - 1})$. $\prover$ and $\verifier$ will interact in the following $k$ rounds, where in the $j$th round starting in round $j=0$ and ending in round $j=k-1$:
-  * $\prover$ sends $L_j = \innerprod{\mathbf{p'}_\hi}{\mathbf{G'}_\lo} + [z \innerprod{\mathbf{p'}_\hi}{\mathbf{b}_\lo}] U + [\cdot] W$ and $R_j = \innerprod{\mathbf{p'}_\lo}{\mathbf{G'}_\hi} + [z \innerprod{\mathbf{p'}_\lo}{\mathbf{b}_\hi}] U + [\cdot] W$.
-  * $\verifier$ responds with challenge $u_j$.
-  * $\prover$ and $\verifier$ set $\mathbf{G'} := \mathbf{G'}_\lo + u_j \mathbf{G'}_\hi$ and $\mathbf{b} = \mathbf{b}_\lo + u_j \mathbf{b}_\hi$.
-  * $\prover$ sets $\mathbf{p'} := \mathbf{p'}_\lo + u_j^{-1} \mathbf{p'}_\hi$.
-25. $\prover$ sends $c = \mathbf{p'}_0$ and synthetic blinding factor $f$.
-26. $\verifier$ accepts only if $\sum_{j=0}^{k - 1} [u_j^{-1}] L_j + P' + \sum_{j=0}^{k - 1} [u_j] R_j = [c] \mathbf{G'}_0 + [c \mathbf{b}_0 z] U + [f] W$.
+19. $\prover$ 设置 $p(X) = q'(X) + [x_4] \sum\limits_{i=0}^{n_q - 1} x_4^i q_i(X)$.
+20. $\prover$ 采样一个随机的度数为 $n-1$ 的多项式 $s(X)$ （其中一个根为 $x_3$ ） ，并发送其承诺 $S = \innerprod{\mathbf{s}}{\mathbf{G}} + [\cdot] W$ ， $\mathbf{s}$ 为 $s(X)$ 多项式的系数。
+21. $\verifier$ 回以挑战 $\xi, z$.
+22. $\prover$ 和 $\verifier$ 设置 $P' = P - [v] \mathbf{G}_0 + [\xi] S$.
+23. $\prover$ 设置 $p'(X) = p(X) - v + \xi s(X)$.
+24. 初始化 $\mathbf{p'}$ 作为多项式 $p'(X)$ 的系数，令 $\mathbf{G'} = \mathbf{G}$ ， $\mathbf{b} = (x_3^0, x_3^1, ..., x_3^{n - 1})$. $\prover$ 和 $\verifier$ 将以如下方式交互 $k$ 轮，在第 $j$th 轮的时候从 $j=0$ 轮开始到 $j=k-1$ 轮：
+  * $\prover$ 发送 $L_j = \innerprod{\mathbf{p'}_\hi}{\mathbf{G'}_\lo} + [z \innerprod{\mathbf{p'}_\hi}{\mathbf{b}_\lo}] U + [\cdot] W$ and $R_j = \innerprod{\mathbf{p'}_\lo}{\mathbf{G'}_\hi} + [z \innerprod{\mathbf{p'}_\lo}{\mathbf{b}_\hi}] U + [\cdot] W$.
+  * $\verifier$ 回以挑战 $u_j$.
+  * $\prover$ 和 $\verifier$ 设置 $\mathbf{G'} := \mathbf{G'}_\lo + u_j \mathbf{G'}_\hi$ 且 $\mathbf{b} = \mathbf{b}_\lo + u_j \mathbf{b}_\hi$.
+  * $\prover$ 设置 $\mathbf{p'} := \mathbf{p'}_\lo + u_j^{-1} \mathbf{p'}_\hi$.
+25. $\prover$ 发送 $c = \mathbf{p'}_0$ 以及盲因子 $f$.
+26. 若 $\sum_{j=0}^{k - 1} [u_j^{-1}] L_j + P' + \sum_{j=0}^{k - 1} [u_j] R_j = [c] \mathbf{G'}_0 + [c \mathbf{b}_0 z] U + [f] W$ ，则 $\verifier$ 接受证明。

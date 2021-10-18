@@ -1,7 +1,5 @@
-# Gadgets
+# 组件
 
-In this section we document some example gadgets and chip designs that are suitable for
-Halo 2.
+在这一章节，我们记录一些 Halo 2 中常用 gadget 和 chip 的设计样例。
 
-> Neither these gadgets, nor their implementations, have been reviewed, and they should
-> not be used in production.
+> 注意：这些 gadget 和它们的实现方式都没有经过 review ，不应用于生产环境中。

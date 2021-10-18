@@ -1,22 +1,12 @@
-# Fields
+# 域
 
-The [Pasta curves](https://electriccoin.co/blog/the-pasta-curves-for-halo-2-and-beyond/)
-that we use in `halo2` are designed to be highly 2-adic, meaning that a large $2^S$
-[multiplicative subgroup](../../background/fields.md#multiplicative-subgroups) exists in
-each field. That is, we can write $p - 1 \equiv 2^S \cdot T$ with $T$ odd. For both Pallas
-and Vesta, $S = 32$; this helps to simplify the field implementations.
+`halo2` 中使用的 [Pasta曲线](https://electriccoin.co/blog/the-pasta-curves-for-halo-2-and-beyond/) 是两条在有限域上均有阶为 $2^S$ 的大乘法子群的曲线。这意味着我们可以将有限域的阶写为 $p-1 \equiv 2^S \cdot T$ ，其中 $T$ 为奇数。对于 Pallas 和 Vesta 曲线，我们都有 $S=32$ 。
 
-## Sarkar square-root algorithm (table-based variant)
+## Sarkar 平方根算法（基于查表的变式）
 
-We use a technique from [Sarkar2020](https://eprint.iacr.org/2020/1407.pdf) to compute
-[square roots](../../background/fields.md#square-roots) in `halo2`. The intuition behind
-the algorithm is that we can split the task into computing square roots in each
-multiplicative subgroup.
+在 `halo2` 中，我们使用 [Sarkar2020](https://eprint.iacr.org/2020/1407.pdf) 论文中的技术计算平方根。该算法的思想是，我们可以将计算平方根的任务在每个乘法子群中进行拆分。
 
-Suppose we want to find the square root of $u$ modulo one of the Pasta primes $p$, where
-$u$ is a non-zero square in $\mathbb{Z}_p^\times$. We define a $2^S$
-[root of unity](../../background/fields.md#roots-of-unity) $g = z^T$ where $z$ is a
-non-square in $\mathbb{Z}_p^\times$, and precompute the following tables:
+假设我们想要求 $u$ 模某个 Pasta 素数阶 $p$ 的平方根，（ $u$ 是 $\mathbb{Z}_p^\times$ 上的一个非零完全平方数），我们可以定义一个 $2^S$ 阶的 [单位根](../../background/fields.md#roots-of-unity) $g=z^T$ ，（ $z$ 是 $\mathbb{Z}_p^\times$ 中的非平方数），并计算如下辅助表格：
 
 $$
 gtab = \begin{bmatrix}
@@ -33,21 +23,20 @@ invtab = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-Let $v = u^{(T-1)/2}$. We can then define $x = uv \cdot v = u^T$ as an element of the
-$2^S$ multiplicative subgroup.
+令 $v = u^{(T-1)/2}$ 。我们可以定义 $x = uv \cdot v = u^T$ 作为 $2^S$ 阶乘法子群上的一个元素。
 
-Let $x_3 = x, x_2 = x_3^{2^8}, x_1 = x_2^{2^8}, x_0 = x_1^{2^8}.$
+令 $x_3 = x, x_2 = x_3^{2^8}, x_1 = x_2^{2^8}, x_0 = x_1^{2^8}.$
 
-### i = 0, 1
-Using $invtab$, we lookup $t_0$ such that
+### 当 i = 0, 1 时
+使用 $invtab$ 表，我们查找 $t_0$ 使得
 $$
 x_0 = (g^{-2^{24}})^{t_0} \implies x_0 \cdot g^{t_0 \cdot 2^{24}} = 1.
 $$
 
-Define $\alpha_1 = x_1 \cdot (g^{2^{16}})^{t_0}.$
+定义 $\alpha_1 = x_1 \cdot (g^{2^{16}})^{t_0}.$
 
-### i = 2
-Lookup $t_1$ s.t. 
+### 当 i = 2 时
+查找 $t_1$ 使得
 $$
 \begin{array}{ll}
 \alpha_1 = (g^{-2^{24}})^{t_1} &\implies x_1 \cdot (g^{2^{16}})^{t_0} = (g^{-2^{24}})^{t_1} \\
@@ -56,10 +45,10 @@ x_1 \cdot g^{(t_0 + 2^8 \cdot t_1) \cdot 2^{16}} = 1.
 \end{array}
 $$
 
-Define $\alpha_2 = x_2 \cdot (g^{2^8})^{t_0 + 2^8 \cdot t_1}.$
+定义 $\alpha_2 = x_2 \cdot (g^{2^8})^{t_0 + 2^8 \cdot t_1}.$
          
-### i = 3
-Lookup $t_2$ s.t. 
+### 当 i = 3 时
+查找 $t_2$ 使得
 
 $$
 \begin{array}{ll}
@@ -68,10 +57,10 @@ $$
 \end{array}
 $$
 
-Define $\alpha_3 = x_3 \cdot g^{t_0 + 2^8 \cdot t_1 + 2^{16} \cdot t_2}.$
+定义 $\alpha_3 = x_3 \cdot g^{t_0 + 2^8 \cdot t_1 + 2^{16} \cdot t_2}.$
 
-### Final result
-Lookup $t_3$ such that
+### 最终结果
+查找 $t_3$ 使得
 
 $$
 \begin{array}{ll}
@@ -80,9 +69,10 @@ $$
 \end{array}
 $$
 
-Let $t = t_0 + 2^8 \cdot t_1 + 2^{16} \cdot t_2 + 2^{24} \cdot t_3$.
+令 $t = t_0 + 2^8 \cdot t_1 + 2^{16} \cdot t_2 + 2^{24} \cdot t_3$.
 
-We can now write
+我们写成
+
 $$
 \begin{array}{lclcl}
 x_3 \cdot g^{t} = 1 &\implies& x_3 &=& g^{-t} \\
@@ -92,6 +82,4 @@ x_3 \cdot g^{t} = 1 &\implies& x_3 &=& g^{-t} \\
 \end{array}
 $$
 
-Squaring the RHS, we observe that $(v^{-1} g^{-t / 2})^2 = v^{-2}g^{-t} = u.$ Therefore,
-the square root of $u$ is $uv \cdot g^{t / 2}$; the first part we computed earlier, and
-the second part can be computed with three multiplications using lookups in $gtab$.
+将等式右边进行平方，我们得到 $(v^{-1} g^{-t / 2})^2 = v^{-2}g^{-t} = u$ 。因此， $u$ 的平方即为 $uv \cdot g^{t / 2}$ ；第一个部分在之前已有计算，第二部分可以通过在 $gtab$ 中查表并计算得到。
