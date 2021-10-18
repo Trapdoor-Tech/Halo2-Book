@@ -7,7 +7,7 @@ concept of *groups*. A group has an identity and a group operation. In this sect
 will write groups additively, i.e. the identity is $\mathcal{O}$ and the group operation
 is $+$.
 
-在章节 [群](fields.md#inverses-and-groups) 中，我们引入了 *群* 的概念。
+在章节 [群](fields.md#groups) 中，我们引入了 *群* 的概念。
 群有一个单位元和一个群运算。本节，我们将写一个加法群，也就是说，它的单位元是 $\mathcal{O}$，群运算是 $+$。
 
 Some groups can be used as *cryptographic groups*. At the risk of oversimplifying, this
@@ -29,7 +29,7 @@ message to commit to $m$ is from any subset of $\mathbb{Z}_q$. The commitment is
 
 Pedersen承诺 [[P99]] 是一种以可验证的方式对一个秘密消息进行承诺的方法。
 它使用两个公开的、随机的生成元 $G, H \in \mathbb{G},$，$\mathbb{G}$ 是一个 $p$ 阶的密码群。
-A random secret $r$ is chosen in 在 $\mathbb{Z}_q$ 上随机选取一个秘密 $r$，而欲承诺的消息
+在 $\mathbb{Z}_q$ 上随机选取一个秘密 $r$，而欲承诺的消息
 $m$ 来自于 $\mathbb{Z}_q$ 的任意一个子集。那么该消息的承诺就是： 
 
 $$c = \text{Commit}(m,r)=[m]G + [r]H.$$ 
@@ -37,13 +37,13 @@ $$c = \text{Commit}(m,r)=[m]G + [r]H.$$
 To open the commitment, the committer reveals $m$ and $r,$ thus allowing anyone to verify
 that $c$ is indeed a commitment to $m.$
 
-为了打开这个承诺，承诺者必须曝露 $m$ and $r$，以使任何人都能验证 $c$ 确实使 $m$ 的承诺。
+为了打开这个承诺，承诺者必须曝露 $m$ 和 $r$，以使任何人都能验证 $c$ 确实是 $m$ 的承诺。
 
 [P99]: https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf#page=3
 
 Notice that the Pedersen commitment scheme is homomorphic:
 
-注意，Pedersen承诺机制使同态的：
+注意，Pedersen承诺机制是同态的：
 
 $$
 \begin{aligned}
@@ -56,7 +56,7 @@ $$
 Assuming the discrete log assumption holds, Pedersen commitments are also perfectly hiding
 and computationally binding:
 
-假设离散对数假设能够保持，那Pedersen承诺就是完美的隐藏(hiding)，计算意义上的连结(binding)
+假设离散对数假设能够保持，那Pedersen承诺就是完美的隐藏(hiding)，计算意义上的绑定(binding)
 
 * **hiding**: the adversary chooses messages $m_0, m_1.$ The committer commits to one of
   these messages $c = \text{Commit}(m_b;r), b \in \{0,1\}.$ Given $c,$ the probability of
@@ -101,14 +101,14 @@ An example of a protocol that uses cryptographic groups is Diffie--Hellman key a
 generate a shared private key. It proceeds as follows:
 
 应用密码群的一个例子就是 Diffie--Hellman 密钥协议
-[[DH1976]]。Diffie--Hellman protocol 是一种为两个使用者，Alice 和 Bob，
+[[DH1976]]。Diffie--Hellman 协议是一种为两个使用者，Alice 和 Bob，
 产生一个共享密钥的方法。它的过程如下：
 
 1. Alice and Bob publicly agree on two prime numbers, $p$ and $G,$ where $p$ is large and
    $G$ is a primitive root $\pmod p.$ (Note that $g$ is a generator of the group
    $\mathbb{F}_p^\times.$)
 
-1. Alice 和 Bob 公开共同选择两个素数，$p$ 和 $G$，其中 $p$ 是一个大素数
+1. Alice 和 Bob 公开协商出两个素数，$p$ 和 $G$，其中 $p$ 是一个大素数
    $G$ 是 $\pmod p$ 本原根（注意 $g$ 是群 $\mathbb{F}_p^\times$ 的生成元）。
 
 2. Alice chooses a large random number $a$ as her private key. She computes her public key
@@ -121,7 +121,7 @@ generate a shared private key. It proceeds as follows:
    public key $B = [b]G \pmod p,$ and sends $B$ to Alice.
 
 3. 类似地，Bob 也选择一个大的随机数 $b$ 作为他的私钥。然后计算他自己的公钥
-   $B = [b]G \pmod p$，并将其公钥 $b$ 发送给 Alice。
+   $B = [b]G \pmod p$，并将其公钥 $B$ 发送给 Alice。
 
 4. Now both Alice and Bob compute their shared key $K = [ab]G \pmod p,$ which Alice
    computes as

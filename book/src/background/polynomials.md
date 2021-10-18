@@ -26,11 +26,11 @@ the formal indeterminate $X$ with some concrete value $x$, which we denote by $A
 > with points on an [elliptic curve](curves.md), which we also make use of, but never in
 > the context of polynomial evaluation.
 
-> 在数学上者通常被称为 “求 $A(X)$ 在点 $x$ 处的值”。
+> 在数学上这通常被称为 “求 $A(X)$ 在点 $x$ 处的值”。
 > 所谓“点”，是从多项式的几何表示来的，
-> 将多项式表示为 $y = A(x)$，那么 $(x, y)$ 就是一个二维空间中的一个点。
+> 将多项式表示为 $y = A(x)$，那么 $(x, y)$ 就是一个二维空间中的一个点的坐标。
 > 但是我们处理的多项式通常总是等于零，并且 $x$ 是一个[某个域中的元素](fields.md)。
-> 不应该与[椭圆曲线](curves.md)的点混淆，这种说法我们也会使用，但是却从不在多项式求值的语境下使用。（？？？）
+> 不应该与[椭圆曲线](curves.md)的点混淆，椭圆曲线上的点的说法我们也要经常使用，但是却从不在多项式求值的语境下使用。（？？？）
 
 
 Important notes:
@@ -287,7 +287,7 @@ Schwartz-Zippel 引理的通俗解释就是 “不同的多项式在绝大多数
 
 > Let $p(x_1, x_2, \cdots, x_n)$ be a nonzero polynomial of $n$ variables with degree $d$.
 
-> $p(x_1, x_2, \cdots, x_n)$ 是有 $n$ 个变量的 $d$ 次多项式。
+> 令 $p(x_1, x_2, \cdots, x_n)$ 是有 $n$ 个变量的 $d$ 次非零多项式。
 
 > Let $S$ be a finite set of numbers with at least $d$ elements in it. If we choose random
 
@@ -338,7 +338,7 @@ $$
 meaning every element is a root of $Z_H(X).$ We call $Z_H(X)$ the **vanishing polynomial**
 over $\mathcal{H}$ because it evaluates to zero on all elements of $\mathcal{H}.$
 
-这就是说每个元素都是 $Z_H(X)$ 的根。我们乘 $Z_H(X)$ 就是在 $\mathcal{H}$ 上的 **消除多项式**
+这就是说每个元素都是 $Z_H(X)$ 的根。我们称 $Z_H(X)$ 就是在 $\mathcal{H}$ 上的 **消除多项式**
 因为该多项式在 $\mathcal{H}$ 中每个元素处的取值都为 $0$。
 
 This comes in particularly handy when checking polynomial constraints. For instance, to

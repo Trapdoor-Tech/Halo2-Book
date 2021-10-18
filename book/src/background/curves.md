@@ -8,7 +8,7 @@ Elliptic curves constructed over finite fields are another important cryptograph
 We use elliptic curves because they provide a cryptographic [group](fields.md#Groups),
 i.e. a group in which the discrete logarithm problem (discussed below) is hard.
 
-椭圆曲线就是一个密码学的群 [群](fields.md#Groups)，即：该群上的离散对数问题是困难的。
+椭圆曲线就是一个密码学的[群](fields.md#Groups)，即：该群上的离散对数问题是困难的。
 
 There are several ways to define the curve equation, but for our purposes, let
 $\mathbb{F}_p$ be a large (255-bit) field, and then let the set of solutions $(x, y)$ to
@@ -36,16 +36,16 @@ intersects this line and then negate. Otherwise, in the event that a point is be
 "added" to its negation, the result is the point at infinity.
 
 群加法法则很简单：两个点相加，就是找到过两个点的直线并与椭圆曲线相交于第三个点，并将该点的 $y$ 坐标取相反数。
-自己加自己，也就是倍点运算，需要进行一些特殊处理：我们求出直线在该点的正切值，进而该直线较椭圆曲线于另一点然后再取逆。
-反之，若一个点于它的逆元相加，结果就是无穷远点。
+自己加自己，也就是二倍点运算，需要进行一些特殊处理：我们求出直线在该点的正切值，进而求出该直线交椭圆曲线的另一点，然后再取逆。
+反之，若一个点与它的逆元相加，结果就是无穷远点。
 
 The ability to add and double points naturally gives us a way to scale them by integers,
 called _scalars_. The number of points on the curve is the group order. If this number
 is a prime $q$, then the scalars can be considered as elements of a _scalar field_,
 $\mathbb{F}_q$.
 
-通过点加和倍点运算，我们很自然就能计算点的标量乘法，即点乘以一个整数，这些整数就被称为 _scalars_。
-椭圆曲线点的个数就是群的阶。如果这个阶是个素数 $q$，于是所有的变量就可以视为 _标量域_ $\mathbb{F}_q$ 中的元素。
+通过点加和二倍点运算，我们很自然就能计算点的标量乘法，即点乘以一个整数，这些整数就被称为 _数量_。
+椭圆曲线点的个数就是群的阶。如果这个阶是个素数 $q$，于是所有的数量就可以视为 _数量域_ $\mathbb{F}_q$ 中的元素。
 
 Elliptic curves, when properly designed, have an important security property. Given two
 random elements $G, H \in E(\mathbb{F}_p)$ finding $a$ such that $[a] G = H$, otherwise
@@ -67,7 +67,7 @@ the isomorphism is hard to compute in the $\mathbb{G} \rightarrow \mathbb{F}_q$ 
 because the elliptic curve discrete log problem is hard.
 
 如果椭圆曲线群 $\mathbb{G}$ 的阶是素数 $q$ (正如我们在 Halo 2 中所使用的)，
-则它是一个有限循环群。由上一节 [群](fields.md#Groups) 可知，这就是说这个椭圆曲线群与 $\mathbb{Z}/q\mathbb{Z}$ 是同构的，
+则它是一个有限循环群。由上一节 [群](fields.md#groups) 可知，这就是说这个椭圆曲线群与 $\mathbb{Z}/q\mathbb{Z}$ 是同构的，
 等价地，与scalar域 $\mathbb{F}_q$ 是同构的。Each possible generator $G$ fixes the isomorphism;（？？？）
 进而scalar中的元素就是由 $G$ 产生的一个群元素的离散对数。在密码学安全的椭圆曲线下，即便同构，也很难在 $\mathbb{G} \rightarrow \mathbb{F}_q$
 这种情况下计算，因为椭圆曲线上的离散对数问题是困难的。
@@ -76,13 +76,13 @@ because the elliptic curve discrete log problem is hard.
 > cryptographic protocols and algorithms in terms of the scalars instead of in terms of
 > the group elements. This can make proofs and notation simpler.
 >
-> 有时利用这种同构性质是很有帮助的，方式是在scalars上思考密码学的协议或者算法而不是在群元素上。
+> 有时利用这种同构性质是很有帮助的，方式是在scalars上思考基于群的密码学的协议或者算法，而不是在群元素上。
 > 这会使得证明和表示更加简单。
 >
 > For instance, it has become common in papers on proof systems to use the notation $[x]$
 > to denote a group element with discrete log $x$, where the generator is implicit.
 >
-> 举例来说，现在在有关证明系统的论文中已经普遍采用 $[x]$ 来代表一个有着离散对数 $x$ 的群元素，先然这种表示中已经隐去了生成元。
+> 举例来说，现在在有关证明系统的论文中已经普遍采用 $[x]$ 来代表一个有着离散对数 $x$ 的群元素，显然这种表示中已经隐去了生成元。
 >
 > We also used this idea in the
 > "[distinct-x theorem](https://zips.z.cash/protocol/protocol.pdf#thmdistinctx)",
@@ -100,7 +100,7 @@ because the elliptic curve discrete log problem is hard.
 
 ## Curve arithmetic
 
-## 椭圆曲线算数
+## 椭圆曲线算术
 
 ### Point doubling
 
@@ -374,12 +374,12 @@ the "base field" and  $\mathbb{F}_q$ the "scalar field".
 
 令 $E_p$ 是定义在有限域 $\mathbb{F}_p,$ 上的椭圆曲线，其中 $p$ 是素数，记为 $E_p/\mathbb{F}_p$，
 并且我们记定义在 $\mathbb{F}_p$ 上的群 $E_p$ 的阶是 q = \#E(\mathbb{F}_p)$。对这条曲线，我们称
-$\mathbb{F}_p$ 为“基域”，$\mathbb{F}_q$ 为“标量域”。
+$\mathbb{F}_p$ 为“基域”，$\mathbb{F}_q$ 为“数量域”。
 
 We instantiate our proof system over the elliptic curve $E_p/\mathbb{F}_p$. This allows us
 to prove statements about $\mathbb{F}_q$-arithmetic circuit satisfiability.
 
-我们在 $E_p/\mathbb{F}_p$ 实现我们的证明系统。这允许我们证明关于 $\mathbb{F}_q$ 算术电路的满足性的命题。
+我们在 $E_p/\mathbb{F}_p$ 实例化我们的证明系统。这允许我们证明关于 $\mathbb{F}_q$ 算术电路的满足性的命题。
 
 > **(aside) If our curve $E_p$ is over $\mathbb{F}_p,$ why is the arithmetic circuit instead in $\mathbb{F}_q$?**
 > The proof system is basically working on encodings of the scalars in the circuit (or
@@ -396,7 +396,7 @@ However, most of the verifier's arithmetic computations are over the base field
 $\mathbb{F}_p,$ and are thus efficiently expressed as an $\mathbb{F}_p$-arithmetic
 circuit.
 
-与之相应，绝大多数验证者的算数运算都是在基域 $\mathbb{F}_p$ 上的，因此可以用 $\mathbb{F}_p$ 的算数电路高效的表示。
+与之相应，绝大多数验证者的算术运算都是在基域 $\mathbb{F}_p$ 上的，因此可以用 $\mathbb{F}_p$ 的算数电路高效的表示。
 
 > **(aside) Why are the verifier's computations (mainly) over $\mathbb{F}_p$?**
 > The Halo 2 verifier actually has to perform group operations using information output by
@@ -414,7 +414,7 @@ generate proofs that could be efficiently verified in the first curve's
 $\mathbb{F}_q$-arithmetic circuit. In other words, we instantiate a second proof system
 over $E_q/\mathbb{F}_q,$ forming a 2-cycle with the first:
 
-这促使我们构造以 $\mathbb{F}_p$ 为标量域的另外一条曲线，这条曲线实现一个基于 $\mathbb{F}_p$ 的算术电路，该电路就可以有效地
+这促使我们构造以 $\mathbb{F}_p$ 为数量域的另外一条曲线，这条曲线实现一个基于 $\mathbb{F}_p$ 的算术电路，该电路就可以有效地
 来验证来自第一条曲线的证明。更美好的是，如果这条曲线的基域又是 $E_q/\mathbb{F}_q$，那么它生成的证明就又可以被第一条曲线的 $\mathbb{F}_q$
 算术电路所验证。于是就形成了一个2-曲线循环：
 
