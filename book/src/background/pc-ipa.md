@@ -22,7 +22,7 @@ scheme:
 * $\mathbb{G}$ is a group of prime order $p;$
 * $\mathbb{G}$ 是一个 $p$ 阶的群，其中 $p$ 为一个素数；
 * $\mathbf{G} \in \mathbb{G}^d$ is a vector of $d$ random group elements;
-* $\mathbf{G} \in \mathbb{G}^d$ $d$ 维向量，它的元素都是在群元素中随机挑选；
+* $\mathbf{G} \in \mathbb{G}^d$ 是 $d$ 维向量，它的元素都是在群元素中随机挑选；
 * $H \in \mathbb{G}$ is a random group element; and
 * $H \in \mathbb{G}$ 是一个随机的群元素；
 * $\mathbb{F}_p$ 一个 $p$-阶有限域。
@@ -43,7 +43,7 @@ $d - 1.$
 ### `Open` (prover) and `OpenVerify` (verifier)
 The modified inner product argument is an argument of knowledge for the relation
 
-经过修改的内积证明是对关系信息的一种证明(？？？)
+经过修改的内积证明是对如下关系信息的一种证明：
 
 $$\boxed{\{((P, x, v); (\mathbf{a}, r)): P = \langle\mathbf{a}, \mathbf{G}\rangle + [r]H, v = \langle\mathbf{a}, \mathbf{b}\rangle\}},$$
 
@@ -53,7 +53,7 @@ polynomial contained “inside” the commitment $P$ evaluates to $v$ at $x,$ an
 that the committed polynomial has maximum degree $d − 1.$
 
 其中 $\mathbf{b} = (1, x, x^2, \cdots, x^{d-1})$ 而 $x$ 是欲求值的点。 
-这就使证明者能够向验证者证明，承诺 $P$ 中所承诺的多项式，在 $x$ 处的值就是 $v$，还有
+内积证明就使证明者能够向验证者证明，承诺 $P$ 中所承诺的多项式，在 $x$ 处的值就是 $v$，还有
 承诺的多项式的最大阶数是 $d - 1$。
 
 The inner product argument proceeds in $k = \log_2 d$ rounds. For our purposes, it is

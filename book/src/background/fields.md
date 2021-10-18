@@ -25,7 +25,7 @@ Halo运用有限域，所谓有限域是指域的元素个数是有限的。有�
   multiplication of integers modulo $p$, i.e. in $\mathbb{Z}_p$. This is why we often
   refer to $p$ as the _modulus_.
 
-- 任意两个有相同元素个数的有限域是同构的。特别的，素域 $\mathbb{F}_p$ 上的算数运算与整数 modulo $p$ 上的加法和乘法是同构的，一个例子是，$\mathbb{Z}_p$。这就是我们将 $p$ 作为 _modulus_ 的原因。
+- 任意两个有相同元素个数的有限域是同构的。特别的，素域 $\mathbb{F}_p$ 上的算术运算与整数 modulo $p$ 上的加法和乘法是同构的，也就是说，$\mathbb{Z}_p$。这就是我们将 $p$ 作为 _modulus_ 的原因。
 
 We'll write a field as $\mathbb{F}_q$ where $q = p^k$. The prime $p$ is called its
 _characteristic_. In the cases where $k \gt 1$ the field $\mathbb{F}_q$ is a $k$-degree
@@ -76,7 +76,7 @@ and fewer axioms. They also have an identity, which we'll denote as $1$.
 Any non-zero element $a$ in a group has an _inverse_ $b = a^{-1}$,
 which is the _unique_ element $b$ such that $a \cdot b = 1$.
 
-群中任意一个非零元素 $a$ 必有一个 _唯一_ 的 _逆元_，$b = a^{-1}$，满足 $a \cdot b = 1$。
+群中任意一个非零元素 $a$ 必有一个 _唯一_ 的 _逆元_，记为 $b = a^{-1}$，满足 $a \cdot b = 1$。
      
 For example, the set of nonzero elements of $\mathbb{F}_p$ forms a group, where the
 group operation is given by multiplication on the field.
@@ -87,7 +87,7 @@ group operation is given by multiplication on the field.
 
 > #### (aside) Additive vs multiplicative notation 
 > #### (备注) 加法 vs 乘法符号 
-> If $\cdot$ is written as $\times$ or omitted (i.e. $a \cdot b$ written as $ab$), the
+> If $\cdot$ is written as $\times$ or omitted (意即 $a \cdot b$ written as $ab$), the
 > identity as $1$, and inversion as $a^{-1}$, as we did above, then we say that the group
 > is "written multiplicatively". If $\cdot$ is written as $+$, the identity as $0$ or
 > $\mathcal{O}$, and inversion as $-a$, then we say it is "written additively".
@@ -99,7 +99,7 @@ group operation is given by multiplication on the field.
 > It's conventional to use additive notation for elliptic curve groups, and multiplicative
 > notation when the elements come from a finite field.
 >
-> 通常，椭圆曲线用加法符号, 而对于有限域中的元素用乘法符号
+> 通常，椭圆曲线群用加法符号来表示, 而对于有限域中的元素构成的群用乘法符号表示
 > 
 > When additive notation is used, we also write
 >
@@ -119,9 +119,8 @@ group operation is given by multiplication on the field.
 > $[k] g = a$ or $g^k = a$ the "discrete logarithm" of $a$ to base $g$. We can extend
 > scalars to negative integers by inversion, i.e. $[-k] A + [k] A = \mathcal{O}$ or
 > $a^{-k} \times a^k = 1$.
-
-> 就被称为“指数”。无论上述那种情况，我们都将满足 $[k] g = a$ 或 $g^k = a$ 的 $k$ 称为 $a$ 在基 $g$ 下的“离散对数”。 我们可以通过求逆运算来
-> 扩展标量，比如：$[-k] A + [k] A = \mathcal{O}$ 或者 $a^{-k} \times a^k = 1$.
+> 就被称为“指数”。无论上述那种情况，我们都将满足 $[k] g = a$ 或 $g^k = a$ 的 $k$ 称为 $a$ 在基 $g$ 下的“离散对数”。 我们可以通过求逆运算
+> 将标量扩展到其逆，也就是说：$[-k] A + [k] A = \mathcal{O}$ 或者 $a^{-k} \times a^k = 1$.
 
 The _order_ of an element $a$ of a finite group is defined as the smallest positive integer
 $k$ such that $a^k = 1$ (in multiplicative notation) or $[k] a = \mathcal{O}$ (in additive
@@ -145,7 +144,7 @@ A group is called [cyclic] if it has a (not necessarily unique) generating set w
 a single element — call it $g$. In that case we can say that $g$ generates the group, and
 that the order of $g$ is the order of the group.
 
-如果一个群的存在一个生成集（不一定是唯一的）只有一个元素，记为 $g$ ，那么这个群就是一个[循环群][cyclic]。进而，我们成 $g$ 生成了这个群，并且 $g$ 的阶就是该群的阶。
+如果一个群的存在一个生成集（不一定是唯一的）只有一个元素，记为 $g$ ，那么这个群就是一个[循环群][cyclic]。进而，我们称 $g$ 生成了这个群，并且 $g$ 的阶就是该群的阶。
 
 Any finite cyclic group $\mathbb{G}$ of order $n$ is [isomorphic] to the integers
 modulo $n$ (denoted $\mathbb{Z}/n\mathbb{Z}$), such that:
@@ -157,8 +156,8 @@ modulo $n$ (denoted $\mathbb{Z}/n\mathbb{Z}$), such that:
 - some generator $g \in \mathbb{G}$ corresponds to $1$.
 
 - $\mathbb{G}$ 上的运算 $\cdot$ 与modulo $n$ 的加法对应；
-- $\mathbb{G}$ 的单位元是 $0$;
-- 有一个生成元 $g \in \mathbb{G}$ 是 $1$.
+- $\mathbb{G}$ 的单位元与 $0$ 对应;
+- 有一个生成元 $g \in \mathbb{G}$ 与 $1$ 对应.
 
 Given a generator $g$, the isomorphism is always easy to compute in the
 $\mathbb{Z}/n\mathbb{Z} \rightarrow \mathbb{G}$ direction; it is just $a \mapsto g^a$
@@ -171,7 +170,7 @@ direction; we'll discuss this further when we come to [elliptic curves](curves.m
 If the order $n$ of a finite group is prime, then the group is cyclic, and every
 non-identity element is a generator.
 
-如果一个有限群的阶 $n$ 是一个素数，那么该群是个循环群，并且每个非单位元元素都是其生成元
+如果一个有限群的阶 $n$ 是一个素数，那么该群是个循环群，并且每个非单位元元素都是其生成元。
 
 [isomorphic]: https://en.wikipedia.org/wiki/Isomorphism
 [cyclic]: https://en.wikipedia.org/wiki/Cyclic_group
@@ -183,14 +182,14 @@ non-identity element is a generator.
 We use the notation $\mathbb{F}_p^\times$ for the multiplicative group (i.e. the group
 operation is multiplication in $\mathbb{F}_p$) over the set $\mathbb{F}_p - \{0\}$.
 
-我们用符号 $\mathbb{F}_p^\times$ 来代表集合 $\mathbb{F}_p - \{0\}$ 上的乘法群（比如，群的运算就是 $\mathbb{F}_p$ 的乘法）。
+我们用符号 $\mathbb{F}_p^\times$ 来代表集合 $\mathbb{F}_p - \{0\}$ 上的乘法群（也就是说，群的运算就是 $\mathbb{F}_p$ 的乘法）。
 
 A quick way of obtaining the inverse in $\mathbb{F}_p^\times$ is $a^{-1} = a^{p - 2}$.
 The reason for this stems from [Fermat's little theorem][fermat-little], which states
 that $a^p = a \pmod p$ for any integer $a$. If $a$ is nonzero, we can divide by $a$ twice
 to get $a^{p-2} = a^{-1}.$
 
-一个快速求逆的方法是 $\mathbb{F}_p^\times$ is $a^{-1} = a^{p - 2}$ 。这是因为，由[费马小定理][fermat-little]，可知如果 $p$ 是一个素数，
+一个快速求逆的方法是 $\mathbb{F}_p^\times$ is $a^{-1} = a^{p - 2}$ 。这是因为，由[费马小定理][fermat-little]可知，如果 $p$ 是一个素数，
 对任意整数 $a$ 且 $a$ 不是 $p$ 的倍数，都有 $a^p = a \pmod p$ 。如果 $a$ 是非零整数，那么我们可以除两次 $a$ 就获得 $a^{p-2} = a^{-1}.$。
 
 [fermat-little]: https://en.wikipedia.org/wiki/Fermat%27s_little_theorem
@@ -221,6 +220,8 @@ $$p - 2 \equiv -1 \pmod{p - 1},$$
 
 so $a^{p - 2} = a^{-1}$.
 
+所以 $a^{p - 2} = a^{-1}$。
+
 ### Montgomery's Trick
 
 ### 蒙哥马利花招
@@ -229,7 +230,7 @@ Montgomery's trick, named after Peter Montgomery (RIP) is a way to compute many 
 inversions at the same time. It is commonly used to compute inversions in
 $\mathbb{F}_p^\times$, which are quite computationally expensive compared to multiplication.
 
-蒙哥马利花招，以彼得 · 蒙哥马利 (RIP) 得名，是同时计算很多群元素的逆元的一种方法。 它通常用于在 $\mathbb{F}_p^\times$ 中求逆，求逆运算
+蒙哥马利花招，以彼得 · 蒙哥马利 (RIP) 得名，是同时计算很多群元素的逆元的一种方法。 它通常用于在 $\mathbb{F}_p^\times$ 中求逆，在其上求逆运算
 要比乘法运算代价大得多。
 
 Imagine we need to compute the inverses of three nonzero elements $a, b, c \in \mathbb{F}_p^\times$.
@@ -248,7 +249,7 @@ $\frac{1}{ab}$, 进一步该值分别乘以 $a, b$ 就分别获得了想要的�
 This technique generalizes to arbitrary numbers of group elements with just a single
 inversion necessary.
 
-该技术可以推广，仅仅一次求逆运算就可以计算出任意个数群元素的逆。
+该技术可以推广，仅仅一次求逆运算就可以计算出任意个数的群元素的逆。
 
 ## Multiplicative subgroups
 
@@ -300,7 +301,7 @@ a large number of multiplicative subgroups with a "smooth" distribution (which m
 performance cliffs smaller and more granular as circuit sizes increase). The Pallas and
 Vesta curves specifically have primes of the form
 
-[PLONK-based] 证明系统， 如 Halo 2，可以更方便的利用拥有大量乘法子群的域，并且这些子群是“平滑”分布的（？？？？）（好处是使得性能悬崖更下，并且可以以更细的力度增长电路规模）。Pallas 和 Vesta 曲线有如下形式的素数
+[PLONK-based] 证明系统， 如 Halo 2，可以更方便的利用拥有大量乘法子群的域，并且这些子群是“平滑”分布的（？？？？）（好处是使得性能悬崖更小，并且可以以更细的力度增长电路规模）。Pallas 和 Vesta 曲线有如下形式的素数
 
 $$T \cdot 2^S = p - 1$$
 
@@ -327,14 +328,14 @@ $\alpha^i \cdot \beta^j$ with $i \in \mathbb{Z}_2$ and $j \in \mathbb{Z}_t$. Hal
 elements will have $i = 0$ and the other half will have $i = 1$.
 
 在域 $\mathbb{F}_p$ 有一半的非零元素都是完全平方元素；剩下的就是非平方或者“二次非剩余”。为了说明此一事实，考虑 $\alpha$ 生成的 $\mathbb{F}_p^\times$ 的 2-阶乘法子群（该子群必然存在，因为当 $p$ 是一个大于等于 $2$ 的素数的时候，$p - 1$ 能被 $2$ 整除）和一个由 $\beta$ 生成的 $\mathbb{F}_p^\times$ 的
-$t$-阶乘法子群，其中 $p - 1 = 2t$。进而每个元素 $a \in \mathbb{F}_p^\times$ 均可以唯一地表示为 $\alpha^i \cdot \beta^j$ 其中 $i \in \mathbb{Z}_2$ and $j \in \mathbb{Z}_t$。那么有一半的元素满足 $i = 0$ 而另一半元素满足 $i = 1$.
+$t$-阶乘法子群，其中 $p - 1 = 2t$。进而每个元素 $a \in \mathbb{F}_p^\times$ 均可以唯一地表示为 $\alpha^i \cdot \beta^j$ 其中 $i \in \mathbb{Z}_2$ 并且 $j \in \mathbb{Z}_t$。那么有一半的元素满足 $i = 0$ 而另一半元素满足 $i = 1$.
 
 Let's consider the simple case where $p \equiv 3 \pmod{4}$ and so $t$ is odd (if $t$ is
 even, then $p - 1$ would be divisible by $4$, which contradicts $p$ being $3 \pmod{4}$).
 If $a \in \mathbb{F}_p^\times$ is a square, then there must exist
 $b = \alpha^i \cdot \beta^j$ such that $b^2 = a$. But this means that
 
-考虑一个简单的例子， $p \equiv 3 \pmod{4}$ 那么 $t$ 必是一个奇数 （如果 $t$ 是偶数，则 $p - 1$ 必能被 $4$ 整除，而这与 $p$ being $3 \pmod{4}$ 矛盾）。 如果 $a \in \mathbb{F}_p^\times$ 是一个完全平方数，则必存在一个 $b = \alpha^i \cdot \beta^j$ 使得 $b^2 = a$。这就意味着，
+考虑一个简单的例子， $p \equiv 3 \pmod{4}$ 那么 $t$ 必是一个奇数 （如果 $t$ 是偶数，则 $p - 1$ 必能被 $4$ 整除，而这与 $p$ 是 $3 \pmod{4}$ 矛盾）。 如果 $a \in \mathbb{F}_p^\times$ 是一个完全平方数，则必存在一个 $b = \alpha^i \cdot \beta^j$ 使得 $b^2 = a$。这就意味着，
 
 $$a = (\alpha^i \cdot \beta^j)^2 = \alpha^{2i} \cdot \beta^{2j} = \beta^{2j}.$$
 
@@ -345,7 +346,7 @@ square (since squaring each nonsquare element gives a unique square). This means
 assume all squares can be written as $\beta^m$ for some $m$, and therefore finding the
 square root is a matter of exponentiating by $2^{-1} \pmod{t}$.
 
-换句话说，某个特定域中的完全平方数不可能生成其 $2$-阶乘法子群，而且由于有一半的元素可以产生其 $2$-阶子群，所以该域中至多有一般的元素是完全平方数。事实上，有且仅有一半的元素是完全平方数（这是因为，每一个非平方元素的平方都是唯一的）。这就意味着，我们可以假设所有的完全平方数都可以表示为 $\beta^m$ 对某个 $m$,因此求平方根就变成了一个指数运算，指数就是 $2^{-1} \pmod{t}$。
+换句话说，某个特定域中的完全平方数不可能生成其 $2$-阶乘法子群，而且由于有一半的元素可以产生其 $2$-阶子群，所以该域中至多有一半的元素是完全平方数。事实上，有且仅有一半的元素是完全平方数（这是因为，每一个非平方元素的平方都是唯一的）。这就意味着，我们可以假设所有的完全平方数都可以表示为 $\beta^m$ 对某个 $m$,因此求平方根就变成了一个指数运算，指数就是 $2^{-1} \pmod{t}$。
 
 In the event that $p \equiv 1 \pmod{4}$ then things get more complicated because
 $2^{-1} \pmod{t}$ does not exist. Let's write $p - 1$ as $2^k \cdot t$ with $t$ odd. The
@@ -366,10 +367,10 @@ odd, and so half of all elements are squares.
 $k \geq 2$。 $\alpha$ 生成一个 $2^k$-阶乘法子群而 $\beta$ 生成一个奇数 $t$-阶得乘法子群。
 进而每个元素 $a \in \mathbb{F}_p^\times$ 都可以表示为 $\alpha^i \cdot \beta^j$ 其中 $i \in \mathbb{Z}_{2^k}$ 并且
 $j \in \mathbb{Z}_t$。如果某元素是完全平方数，就是说存在 $b = \sqrt{a}$ 而 $b$ 本身可以表示为
-$b = \alpha^{i'} \cdot \beta^{j'}$ 对于 $i' \in \mathbb{Z}_{^k}$ 和
+$b = \alpha^{i'} \cdot \beta^{j'}$ 对于 $i' \in \mathbb{Z}_{2^k}$ 和
 $j' \in \mathbb{Z}_t$。这意味着 $a = b^2 = \alpha^{2i'} \cdot \beta^{2j'}$，
 因此我们推出 $i \equiv 2i' \pmod{2^k}$，并且 $j \equiv 2j' \pmod{t}$。那么在这种情况下 $i$ 就必须是一个偶数，否则对任意 $i'$, 
-$i \equiv 2i' \pmod{2^k}$ 就不能成立。反之，如果 $a$ 不是一个完全平方数，那么 $i$就是一个奇数。综上，一半得元素是完全平方数。
+$i \equiv 2i' \pmod{2^k}$ 就不能成立。反之，如果 $a$ 不是一个完全平方数，那么 $i$就是一个奇数。综上，一半的元素是完全平方数。
 
 In order to compute the square root, we can first raise the element
 $a = \alpha^i \cdot  \beta^j$ to the power $t$ to "kill" the $t$-order component, giving
@@ -390,7 +391,7 @@ can trivially handle. We can similarly kill the $2^k$-order component to obtain
 $\beta^{j \cdot 2^{-1} \pmod{t}}$, and put the values together to obtain the square root.
 
 （因为 $t$ 与 $2^k$ 是互素的）。这就暴露出 $\alpha^i$ 的值可以让我们进一步处理。
-相似的，我们可以消除 $2^k$-阶部分以获得 $\beta^{j \cdot 2^{-1} \pmod{t}}$，将这两个值合起来就得出了平方根。
+相似的，我们可以消除 $2^k$-阶部分以获得 $\beta^{j \cdot 2^{-k} \pmod{t}}$ （这里原文是不是有个笔误？？？），将这两个值合起来就得出了平方根。
 
 It turns out that in the cases $k = 2, 3$ there are simpler algorithms that merge several
 of these exponentiations together for efficiency. For other values of $k$, the only known
@@ -403,7 +404,7 @@ quite large.)
 已经证明当 $k = 2, 3$ 时，有更简便的方法来合并这些指数以提高效率。
 而对于其他的 $k$ 值，唯一获取 $i$ 的方法就是，不断平方以最终确定 $i$ 的每一位。
 这就是 [Tonelli-Shanks square root algorithm][ts-sqrt] 算法的本质，并且该算法还描述了一半的策略。
-（当然还有另外一种用二次扩域的求取平方根的算法，但是知道素数变得相当大时，该算法才有效率优势）。
+（当然还有另外一种用二次扩域的求取平方根的算法，但是直到素数变得相当大时，该算法才有效率优势）。
 
 [ts-sqrt]: https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm
 
@@ -418,7 +419,7 @@ are known as the $n$th [roots of unity](https://en.wikipedia.org/wiki/Root_of_un
 
 在前一章节，我们令 $p - 1 = 2^k \cdot t$ 其中 $t$ 是奇数，并且阐明
 元素 $\alpha \in \mathbb{F}_p^\times$ 生成其 $2^k$-阶子群。
-位方便起见，不妨设 $n := 2^k$。那么元素 $\{1, \alpha, \ldots, \alpha^{n-1}\}$ 都被称为 $n$
+为方便起见，不妨设 $n := 2^k$。那么元素 $\{1, \alpha, \ldots, \alpha^{n-1}\}$ 都被称为 $n$ 次
 [单位根](https://en.wikipedia.org/wiki/Root_of_unity)。
 
 The **primitive root of unity**, $\omega,$ is an $n$th root of unity such that
