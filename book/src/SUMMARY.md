@@ -1,6 +1,7 @@
 # The halo2 Book
 
 [halo2](README.md)
+- [翻译说明](translation_summary.md)
 - [概念](concepts.md)
   - [证明系统](concepts/proofs.md)
   - [PLONKish Arithmetization](concepts/arithmetization.md)
