@@ -12,7 +12,7 @@ Halo2 Book的翻译以严格准守原文本意为原则，但是水平有限，�
 
 
 感谢Trapdoor Tech团队参与翻译和校对的小伙伴：
-- @StarLI-Trapdoor
+- [@StarLI-Trapdoor](https://github.com/StarLI-Trapdoor)
 -
 
 
