@@ -2,7 +2,7 @@
 
 ## 预备工作
 
-我们定义 $\sec$ 作为一个安全参数，且除明确标注外，文档中所有的算法和 adversaries 都是在该安全参数下运行时间为多项式的概率型图灵机。我们使用 $\negl$ 表示一个在 $\sec$ 下可忽略的函数。
+我们定义 $\sec$ 作为一个安全参数，且除明确标注外，文档中所有的算法和敌手(adversaries)都是在该安全参数下运行时间为多项式的概率型图灵机。我们使用 $\negl$ 表示一个在 $\sec$ 下可忽略的函数。
 
 ### 密码学群
 
@@ -230,7 +230,7 @@ a_0(X), a_1(X, C_0), ..., a_{n_a - 1}(X, C_0, C_1, ..., C_{n_a - 1})
 \right\}
 $$
 
-我们提出一种交互式 argument $\halo = (\setup, \prover, \verifier)$ ，其中 $a_0, a_1, ..., a_{n_a - 1}$ 是 $X$ 中度数为 $n -1$ 的多变量多项式， $g$ 在 $X$ 中的度数为 $n_g(n - 1)$ 。
+我们提出一种交互式 argument $\halo = (\setup, \prover, \verifier)$ ，其中 $a_0, a_1, ..., a_{n_a - 1}$ 是关于 $X$ 的度数为 $n -1$ 的（多变量）多项式， $g$ 是关于 $X$ 的度数为 $n_g(n - 1)$ 的多项式。
 
 $\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in \group)$.
 
@@ -241,14 +241,14 @@ $\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in 
 
 令 $n_q$ 表示集合 $\mathbf{q}$ 的大小，不失一般性地，令 $n_e$ 表示每个 $\mathbf{p_i}$ 集合的大小。
 
-在下述的协议中，我们默认 $n_e + 1$ 个盲因子均为 prover 新采样的，且每个盲因子都表示为 domain $D$ 上多项式 $a_i(X, \cdots)$ 的值。
+在下述的协议中，我们默认每个 $a_i(X,\cdots)$ 多项式为 $n_e + 1$ 个盲因子均为 prover 新采样的，且以 domain $D$ 上各点值的形式表示。
 
 1. $\prover$ 和 $\verifier$ 进行 $n_a$ 轮交互，在第 $j$ 轮中（轮次从0开始）
   * $\prover$ 设置 $a'_j(X) = a_j(X, c_0, c_1, ..., c_{j - 1})$
-  * $\prover$ 发送一个 hiding commitment $A_j = \innerprod{\mathbf{a'}}{\mathbf{G}} + [\cdot] W$ ， $\mathbf{a'}$ 为单变量多项式 $a'_j(X)$ 的系数， $\cdot$ 为某个随机且独立采样的盲因子。
+  * $\prover$ 发送一个隐藏用的承诺 $A_j = \innerprod{\mathbf{a'}}{\mathbf{G}} + [\cdot] W$ ， 其中 $\mathbf{a'}$ 为单变量多项式 $a'_j(X)$ 的系数， $\cdot$ 为某个随机且独立采样的盲因子。
   * $\verifier$ 回应 $\prover$ 一个挑战 $c_j$.
 2. $\prover$ 和 $\verifier$ 设置 $g'(X) = g(X, c_0, c_1, ..., c_{n_a - 1})$.
-3. $\prover$ 发送一个承诺 $R = \innerprod{\mathbf{r}}{\mathbf{G}} + [\cdot] W$ ， $\mathbf{r} \in \field^n$ 为随机采样的多项式 $r(X)$ 的系数，多项式系数为 $n - 1$ 。
+3. $\prover$ 发送一个承诺 $R = \innerprod{\mathbf{r}}{\mathbf{G}} + [\cdot] W$ ，其中 $\mathbf{r} \in \field^n$ 为随机采样的单变量多项式 $r(X)$ 的系数，其度数为 $n - 1$ 。
 4. $\prover$ 计算单变量多项式 $h(X) = \frac{g'(X)}{t(X)}$ ，其度数为 $n_g(n - 1) - n$.
 5. $\prover$ 计算度数至多为 $n - 1$ 的多项式 $h_0(X), h_1(X), ..., h_{n_g - 2}(X)$ ，使得 $h(X) = \sum\limits_{i=0}^{n_g - 2} X^{ni} h_i(X)$.
 6. $\prover$ 将所有的承诺 $H_i = \innerprod{\mathbf{h_i}}{\mathbf{G}} + [\cdot] W$ 发送给 $\verifier$ ，其中 $h_i(X)$ 为多项式系数组成的向量。
@@ -257,18 +257,17 @@ $\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in 
 9. $\prover$ 发送 $r = r(x)$ 并且对所有的 $i \in [0, n_a)$ ，发送 $\mathbf{a_i}$ ，使得对所有的 $j \in [0, n_e]$ ，都有 $(\mathbf{a_i})_j = a'_i(\omega^{(\mathbf{p_i})_j} x)$ 。
 10. 对所有的 $i \in [0, n_a)$ ， $\prover$ 和 $\verifier$ 设置 $s_i(X)$ 为度数最低的单变量多项式，使得对所有的 $j \in [0, n_e)$ ， $s_i(\omega^{(\mathbf{p_i})_j} x) = (\mathbf{a_i})_j$ 。
 11. $\verifier$ 发送两个挑战 $x_1, x_2$ 以回应，并初始化 $Q_0, Q_1, ..., Q_{n_q - 1} = \zero$.
-  * 对于从 $i=0$ 到 $i =n_a - 1$ ， $\verifier$ 设置 $Q_{\sigma(i)} := [x_1] Q_{\sigma(i)} + A_i$.
+  * 从 $i=0$ 到 $i =n_a - 1$ ， $\verifier$ 设置 $Q_{\sigma(i)} := [x_1] Q_{\sigma(i)} + A_i$.
   * 最后 $\verifier$ 设置 $Q_0 := [x_1^2] Q_i + [x_1] H' + R$.
 12. $\prover$ 初始化 $q_0(X), q_1(X), ..., q_{n_q - 1}(X) = 0$.
   * 从 $i=0$ 开始到 $i=n_a - 1$ ， $\prover$ 设置 $q_{\sigma(i)} := x_1 q_{\sigma(i)} + a'(X)$.
   * 最后 $\prover$ 设置 $q_0(X) := x_1^2 q_0(X) + x_1 h'(X) + r(X)$.
 13. $\prover$ 和 $\verifier$ 初始化 $r_0(X), r_1(X), ..., r_{n_q - 1}(X) = 0$.
   * 从 $i=0$ 开始到 $i=n_a - 1$ ， $\prover$ 和 $\verifier$ 设置 $r_{\sigma(i)}(X) := x_1 r_{\sigma(i)}(X) + s_i(X)$.
-  * 最后 $\prover$ 和 $\verifier$ 设置 $r_0 := x_1^2 r_0 + x_1 h + r$ ，由 $\verifier$ 使用 $r$ 计算 $h = \frac{g'(x)}{t(x)}$ ？？？，由 $\prover$ 提供 $\mathbf{a}$ 。
+  * 最后 $\prover$ 和 $\verifier$ 设置 $r_0 := x_1^2 r_0 + x_1 h + r$ ， $\verifier$ 使用由 $\prover$ 提供的 $r$ 和 $\mathbf{a}$ 计算 $h = \frac{g'(x)}{t(x)}$ 
 14. $\prover$ 发送 $Q' = \innerprod{\mathbf{q'}}{\mathbf{G}} + [\cdot] W$ ，其中 $\mathbf{q'}$ 为下列多项式的系数：
 
 $$q'(X) = \sum\limits_{i=0}^{n_q - 1}
-
 x_2^i
   \left(
   \frac
@@ -282,10 +281,12 @@ x_2^i
   }
   \right)
 $$
+
 15. $\verifier$ 回以挑战 $x_3$.
 16. $\prover$ 发送 $\mathbf{u} \in \field^{n_q}$ 使得 $\mathbf{u}_i = q_i(x_3)$ for all $i \in [0, n_q)$.
 17. $\verifier$ 回以挑战 $x_4$.
 18. $\prover$ 和 $\verifier$ 设置 $P = Q' + x_4 \sum\limits_{i=0}^{n_q - 1} [x_4^i] Q_i$ ， $v = $
+
 $$
 \sum\limits_{i=0}^{n_q - 1}
 \left(
@@ -305,12 +306,13 @@ x_2^i
 +
 x_4 \sum\limits_{i=0}^{n_q - 1} x_4 \mathbf{u}_i
 $$
+
 19. $\prover$ 设置 $p(X) = q'(X) + [x_4] \sum\limits_{i=0}^{n_q - 1} x_4^i q_i(X)$.
 20. $\prover$ 采样一个随机的度数为 $n-1$ 的多项式 $s(X)$ （其中一个根为 $x_3$ ） ，并发送其承诺 $S = \innerprod{\mathbf{s}}{\mathbf{G}} + [\cdot] W$ ， $\mathbf{s}$ 为 $s(X)$ 多项式的系数。
 21. $\verifier$ 回以挑战 $\xi, z$.
 22. $\prover$ 和 $\verifier$ 设置 $P' = P - [v] \mathbf{G}_0 + [\xi] S$.
 23. $\prover$ 设置 $p'(X) = p(X) - v + \xi s(X)$.
-24. 初始化 $\mathbf{p'}$ 作为多项式 $p'(X)$ 的系数，令 $\mathbf{G'} = \mathbf{G}$ ， $\mathbf{b} = (x_3^0, x_3^1, ..., x_3^{n - 1})$. $\prover$ 和 $\verifier$ 将以如下方式交互 $k$ 轮，在第 $j$th 轮的时候从 $j=0$ 轮开始到 $j=k-1$ 轮：
+24. 初始化 $\mathbf{p'}$ 作为多项式 $p'(X)$ 的系数，令 $\mathbf{G'} = \mathbf{G}$ ， $\mathbf{b} = (x_3^0, x_3^1, ..., x_3^{n - 1})$. $\prover$ 和 $\verifier$ 将以如下方式交互 $k$ 轮，$j$ 的取值范围从 $j=0$ 到 $j=k-1$ ：
   * $\prover$ 发送 $L_j = \innerprod{\mathbf{p'}_\hi}{\mathbf{G'}_\lo} + [z \innerprod{\mathbf{p'}_\hi}{\mathbf{b}_\lo}] U + [\cdot] W$ and $R_j = \innerprod{\mathbf{p'}_\lo}{\mathbf{G'}_\hi} + [z \innerprod{\mathbf{p'}_\lo}{\mathbf{b}_\hi}] U + [\cdot] W$.
   * $\verifier$ 回以挑战 $u_j$.
   * $\prover$ 和 $\verifier$ 设置 $\mathbf{G'} := \mathbf{G'}_\lo + u_j \mathbf{G'}_\hi$ 且 $\mathbf{b} = \mathbf{b}_\lo + u_j \mathbf{b}_\hi$.
