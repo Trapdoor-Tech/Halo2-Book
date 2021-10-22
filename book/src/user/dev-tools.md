@@ -1,69 +1,41 @@
-# Developer tools
+## 开发者工具
 
-The `halo2` crate includes several utilities to help you design and implement your
-circuits.
+Rust库 `halo2` 中包含了数个工具，为你设计并开发自己的电路提供帮助。
 
-## Mock prover
+### Mock prover
 
+`halo2::dev::MockProver` 是一个用来调试电路用的工具。除此之外，它还可以用来在单元测试中快速检验电路正确性。
 
-`halo2::dev::MockProver` is a tool for debugging circuits, as well as cheaply verifying
-their correctness in unit tests. The private and public inputs to the circuit are
-constructed as would normally be done to create a proof, but `MockProver::run` instead
-creates an object that will test every constraint in the circuit directly. It returns
-granular error messages that indicate which specific constraint (if any) is not satisfied.
+隐私输入和公开输入的计算过程，是和生成一个真正的证明一样。但是，`MockProver::run` 函数只会生成一个对象，它直接检验电路中每一条约束是否满足。如果电路中某个约束不满足，那这个对象就会返回关于该约束的一个细粒度的错误信息。
 
-## Circuit visualizations
+*译注*: MockProver 能检验电路是否满足，这比创建证明之后，发现证明证不过快多了。
 
-The `dev-graph` feature flag exposes several helper methods for creating graphical
-representations of circuits.
+### 耗时估算器
 
-`halo2::dev::circuit_layout` renders the circuit layout as a grid:
+程序 `cost-model` 可以根据电路设计所采用的不同参数，估算出，验证一个证明的时长，以及对应的证明大小。
 
-- Columns are layed out from left to right as advice, instance, and fixed. The order of
-  columns is otherwise without meaning.
-  - Advice columns have a red background.
-  - Instance columns have a white background.
-  - Fixed columns have a blue background.
-- Regions are shown as labelled green boxes (overlaying the background colour). A region
-  may appear as multiple boxes if some of its columns happen to not be adjacent.
-- Cells that have been assigned to by the circuit will be shaded in grey. If any cells are
-  assigned to more than once (which is usually a mistake), they will be shaded darker than
-  the surrounding cells.
-
-`halo2::dev::circuit_dot_graph` builds a [DOT graph string] representing the given
-circuit, which can then be rendered witha variety of [layout programs]. The graph is built
-from calls to `Layouter::namespace` both within the circuit, and inside the gadgets and
-chips that it uses.
-
-[DOT graph string]: https://graphviz.org/doc/info/lang.html
-[layout programs]: https://en.wikipedia.org/wiki/DOT_(graph_description_language)#Layout_programs
-
-## Cost estimator
-
-The `cost-model` binary takes high-level parameters for a circuit design, and estimates
-the verification cost, as well as resulting proof size.
-
-```plaintext
-Usage: cargo run --example cost-model -- [OPTIONS] k
+```shell
+用法: cargo run --example cost-model -- [OPTIONS] k
 
 Positional arguments:
-  k                       2^K bound on the number of rows.
+  k                       2^k 总行数的上界.
 
 Optional arguments:
-  -h, --help              Print this message.
+  -h, --help              打印此用法信息.
   -a, --advice R[,R..]    An advice column with the given rotations. May be repeated.
   -i, --instance R[,R..]  An instance column with the given rotations. May be repeated.
   -f, --fixed R[,R..]     A fixed column with the given rotations. May be repeated.
   -g, --gate-degree D     Maximum degree of the custom gates.
   -l, --lookup N,I,T      A lookup over N columns with max input degree I and max table degree T. May be repeated.
   -p, --permutation N     A permutation over N columns. May be repeated.
+
 ```
 
-For example, to estimate the cost of a circuit with three advice columns and one fixed
-column (with various rotations), and a maximum gate degree of 4:
+
+比如，估算有三个 advice column 和一个 fixed column 以及 门的最高次数为 4 的电路: 
 
 ```plaintext
-$ cargo run --example cost-model -- -a 0,1 -a 0 -a-0,-1,1 -f 0 -g 4 11
+cargo run --example cost-model -- -a 0,1 -a 0 -a 0,-1,1 -f 0 -g 4 11
     Finished dev [unoptimized + debuginfo] target(s) in 0.03s
      Running `target/debug/examples/cost-model -a 0,1 -a 0 -a 0,-1,1 -f 0 -g 4 11`
 Circuit {

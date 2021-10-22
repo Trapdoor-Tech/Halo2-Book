@@ -1,37 +1,29 @@
-# Tips and tricks
+## 实用的小方法
 
-This section contains various ideas and snippets that you might find useful while writing
-halo2 circuits.
+本节包含几个写 halo2 电路时能用帮上忙的小策略。
 
-## Small range constraints
+### 小范围（or 区间?）约束
 
-A common constraint used in R1CS circuits is the boolean constraint: $b * (1 - b) = 0$.
-This constraint can only be satisfied by $b = 0$ or $b = 1$.
+在 R1CS 电路中，经常用到的一种约束就是布尔约束: $b * (1-b) = 0$. 这种约束限定了 $b = 0$ 或者 $b = 1$. 
 
-In halo2 circuits, you can similarly constrain a cell to have one of a small set of
-values. For example, to constrain $a$ to the range $[0..5]$, you would create a gate of
-the form:
+类似地，在 halo2 电路中，你也可以限定一个 *cell* 在一个小集合内取值。比如，若要限定 $a$的值落在区间 $[0..5]$，你可以构建如下形式的门: 
 
-$$a \cdot (1 - a) \cdot (2 - a) \cdot (3 - a) \cdot (4 - a) = 0$$
+$$ a \cdot (1-a) \cdot (2-a) \cdot (3- a) \cdot (4-a) = 0$$
 
-while to constraint $c$ to be either 7 or 13, you would use:
+又比如，要限定 $c$ 等于 7 或 13，你可以用如下的门:
 
-$$(7 - c) \cdot (13 - c) = 0$$
+$$(7-c) \cdot (13 - c) = 0$$
 
-> The underlying principle here is that we create a polynomial constraint with roots at
-> each value in the set of possible values we want to allow. In R1CS circuits, the maximum
-> supported polynomial degree is 2 (due to all constraints being of the form $a * b = c$).
-> In halo2 circuits, you can use arbitrary-degree polynomials - with the proviso that
-> higher-degree constraints are more expensive to use.
+> 基本原理就是，我们构建一个多项式约束，使得其根集合与我们想限定的取值集合相同。
+> R1CS 电路支持的多项式次数最大为2（因为所有的约束方程必须具有 $a * b = c$ 的形式）。
+> 而 halo2 电路支持任意次数的多项式，只不过更高次数会带来更大的代价。
 
-Note that the roots don't have to be constants; for example $(a - x) \cdot (a - y) \cdot (a - z) = 0$ will constrain $a$ to be equal to one of $\{ x, y, z \}$ where the latter can be arbitrary polynomials, as long as the whole expression stays within the maximum degree bound.
+需要注意，这些根不必是常量；比如，可以用 $ (a -x) \cdot (a - y) \cdot (a - z) = 0$ 来限定 $a$ 等于集合 $\{ x, y, z\}$ 中的任一元素。而且，
 
-## Small set interpolation
-We can use Lagrange interpolation to create a polynomial constraint that maps
-$f(X) = Y$ for small sets of $X \in \{x_i\}, Y \in \{y_i\}$. 
+### 小集合插值
+我们可以用 Lagrange 插值法构造一个多项式约束，证明 $f(X) = Y$，其中 $X \in \{ x_i \}, Y \in \{ y_i \}$ 。
 
-For instance, say we want to map a 2-bit value to a "spread" version interleaved
-with zeros. We first precompute the evaluations at each point:
+例如，假设我们想把 2比特的值 伸展成4比特值(TODO)。我们首先预计算出每一个点上的取值：
 
 $$
 \begin{array}{rcl}
@@ -42,15 +34,14 @@ $$
 \end{array}
 $$
 
-Then, we construct the Lagrange basis polynomial for each point using the
-identity:
+然后，为每一个点计算出对应的 Lagrange 基多项式(basis polynomial)，其中 $k$ 是点的个数（在我们的例子中，$k = 4$）：
+
 $$\mathcal{l}_j(X) = \prod_{0 \leq m < k,\; m \neq j} \frac{x - x_m}{x_j - x_m},$$
-where $k$ is the number of data points. ($k = 4$ in our example above.)
 
-Recall that the Lagrange basis polynomial $\mathcal{l}_j(X)$ evaluates to $1$ at
-$X = x_j$ and $0$ at all other $x_i, j \neq i.$
 
-Continuing our example, we get four Lagrange basis polynomials:
+回顾一下，Lagrange 基多项式 $l_j(X)$ 满足如下性质：若 $X = x_j$, 则 $l_j(X) = 1$；否则，$X = x_i (i \neq j)$，一定有 $l_j(X) = 0$。
+
+回到我们刚才举的例子，我们就计算出了4个 Lagrange 基多项式：
 
 $$
 \begin{array}{ccc}
@@ -61,7 +52,8 @@ l_3(X) &=& \frac{(X - 2)(X - 1)(X)}{(1)(2)(3)}
 \end{array}
 $$
 
-Our polynomial constraint is then
+
+那么，我们就得到了如下所示的多项式约束：
 
 $$
 \begin{array}{cccccccccccl}
@@ -69,3 +61,4 @@ $$
 \implies& 0 \cdot l_0(X) &+& 1 \cdot l_1(X) &+& 4 \cdot l_2(X) &+& 5 \cdot l_3(X) &-& f(X) &=& 0. \\
 \end{array}
 $$
+
