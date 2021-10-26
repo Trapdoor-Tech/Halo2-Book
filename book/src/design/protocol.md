@@ -173,7 +173,7 @@ $$
 
 若验证者在协议的交互中除了知道存在一个有效的 $w$ 之外没有获得任何其他额外的知识，则我们说该关于知识的证明是 _零知识性_ 的。
 
-> **完美 special 诚实验证者零知识性** 一个交互式的 public coin 证明 $(\setup, \prover, \verifier)$ 拥有 _完美 special 诚实验证者零知识性_ (PSHVZK) 仅当对于所有多项式时间可决定的关系 $\relation$ 和所有 $(x, w) \in \relation$ 及所有非均匀多项式时间的攻击者 $\a_1$ ， $\a_2$ ，存在一个概率性的多项式时间模拟器 $\sim$ ，使得
+> **完美特殊诚实验证者零知识性** 一个交互式的 public coin 证明 $(\setup, \prover, \verifier)$ 拥有 _完美特殊诚实验证者零知识性_ (PSHVZK) 仅当对于所有多项式时间可决定的关系 $\relation$ 和所有 $(x, w) \in \relation$ 及所有非均匀多项式时间的攻击者 $\a_1$ ， $\a_2$ ，存在一个概率性的多项式时间模拟器 $\sim$ ，使得
 $$
 \begin{array}{rl}
 &Pr \left[ \a_1(\sigma, x, \tr) = 1 \, \middle| \,
@@ -219,7 +219,7 @@ a_0(X), a_1(X, C_0), ..., a_{n_a - 1}(X, C_0, C_1, ..., C_{n_a - 1})
 \right\}
 $$
 
-我们提出一种交互式 argument $\halo = (\setup, \prover, \verifier)$ ，其中 $a_0, a_1, ..., a_{n_a - 1}$ 是关于 $X$ 的度数为 $n -1$ 的（多变量）多项式， $g$ 是关于 $X$ 的度数为 $n_g(n - 1)$ 的多项式。
+我们提出一种交互式证明 $\halo = (\setup, \prover, \verifier)$ ，其中 $a_0, a_1, ..., a_{n_a - 1}$ 是关于 $X$ 的度数为 $n -1$ 的（多变量）多项式， $g$ 是关于 $X$ 的度数为 $n_g(n - 1)$ 的多项式。
 
 $\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in \group)$.
 
@@ -230,7 +230,7 @@ $\setup(\sec)$ 返回 $\pp = (\group, \field, \mathbf{G} \in \group^n, U, W \in 
 
 令 $n_q$ 表示集合 $\mathbf{q}$ 的大小，不失一般性地，令 $n_e$ 表示每个 $\mathbf{p_i}$ 集合的大小。
 
-在下述的协议中，我们默认每个 $a_i(X,\cdots)$ 多项式为 $n_e + 1$ 个盲因子均为 prover 新采样的，且以 domain $D$ 上各点值的形式表示。
+在下述的协议中，我们默认每个 $a_i(X,\cdots)$ 多项式为 $n_e + 1$ 个盲因子均为验证者新采样的，且以 domain $D$ 上各点值的形式表示。
 
 1. $\prover$ 和 $\verifier$ 进行 $n_a$ 轮交互，在第 $j$ 轮中（轮次从0开始）
   * $\prover$ 设置 $a'_j(X) = a_j(X, c_0, c_1, ..., c_{j - 1})$

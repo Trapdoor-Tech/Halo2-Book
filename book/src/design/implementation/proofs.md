@@ -40,12 +40,12 @@
 - $P$ - permutation argument 的数量
 - $\textsf{Col}_P$ - 在 permutation argument $P$ 中用到的列的数量
 - $D$ - 商数多项式的最大度数
-- $Q_A$ - advice column 的请求数？？？
-- $Q_F$ - fixed column 的请求数？？？
-- $Q_I$ - instance column 的请求数？？？
+- $Q_A$ - advice column 的询问数
+- $Q_F$ - fixed column 的询问数
+- $Q_I$ - instance column 的询问数
 - $M$ - 可以同时证明的电路 instance 数量
 
-因为证明的编码是直接按照 transcript 进行的，我们可以将其按 Halo 2 协议划分成几个部分：
+因为证明的编码是直接根据 transcript 进行的，我们可以将其按 Halo 2 协议划分成几个部分：
 
 - PLONK 承诺 :
   - $A$ 个点（重复 $M$ 次）
@@ -64,9 +64,9 @@
   - $(2 + \textsf{Col}_P) \times P$ 个标量（重复 $M$ 次）
   - $5L$ 个标量（重复 $M$ 次）
 
-- 多点打开 argument ：
+- 多点打开证明：
   - 1 个点.
-  - 在 argument 中的每个点集对应 1 个标量
+  - 在证明中的每个点集对应 1 个标量
 
 - 多项式承诺方案：
   - $1 + 2k$ 个点.
