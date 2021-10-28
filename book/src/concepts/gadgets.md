@@ -1,25 +1,20 @@
-# Gadgets
+# 工具
 
-When implementing a circuit, we could use the features of the chips we've selected directly.
-Typically, though, we will use them via ***gadgets***. This indirection is useful because,
-for reasons of efficiency and limitations imposed by UPA, the chip interfaces will often be
-dependent on low-level implementation details. The gadget interface can provide a more convenient
-and stable API that abstracts away from extraneous detail.
 
-For example, consider a hash function such as SHA-256. The interface of a chip supporting
-SHA-256 might be dependent on internals of the hash function design such as the separation
-between message schedule and compression function. The corresponding gadget interface can
-provide a more convenient and familiar `update`/`finalize` API, and can also handle parts
-of the hash function that do not need chip support, such as padding. This is similar to how
-[accelerated](https://software.intel.com/content/www/us/en/develop/articles/intel-sha-extensions.html)
-[instructions](https://developer.arm.com/documentation/ddi0514/g/introduction/about-the-cortex-a57-processor-cryptography-engine)
-for cryptographic primitives on CPUs are typically accessed via software libraries, rather
-than directly.
+当实现一个电路时，我们可以直接使用我们选择的芯片的特性。 通常, 我们会通过 ***工具*** 使用他们. 
+这种间接方式是很有用的，因为由于效率和UPA的限制，芯片接口通常依赖于底层的实现细节.
+工具接口可以提供更加便捷和稳定的, 从无关细节抽象化的 api
 
-Gadgets can also provide modular and reusable abstractions for circuit programming
-at a higher level, similar to their use in libraries such as
-[libsnark](https://github.com/christianlundkvist/libsnark-tutorial) and
-[bellman](https://electriccoin.co/blog/bellman-zksnarks-in-rust/). As well as abstracting
-*functions*, they can also abstract *types*, such as elliptic curve points or integers of
-specific sizes.
+举个例子, 想一个哈希函数, 比如说 SHA-256. 芯片的接口支持 SHA-256 可能是依赖于内部的哈希函数设计, 
+例如消息调度和压缩功能之间的分离功能. 一致的工具接口可以提供更加便捷和熟悉的 `更新`/`完成` API, 
+也能够在不需要芯片支持的情况下处理hash函数的一部分, 比如说 填充 功能.
+这类似于通常通过软件库而不是直接访问cpu上加密原语的[加速](https://software.intel.com/content/www/us/en/develop/articles/intel-sha-extensions.html)
+[指令](https://developer.arm.com/documentation/ddi0514/g/introduction/about-the-cortex-a57-processor-cryptography-engine)。
+
+工具能在高层次上为电路程序提供一个模块化,可重用的抽象概念, 类似于在像 
+[libsnark](https://github.com/christianlundkvist/libsnark-tutorial),
+[bellman](https://electriccoin.co/blog/bellman-zksnarks-in-rust/)
+这样的库中使用. 不但需要 抽象 *函数*, 同样也需要抽象 *类型*, 
+例如特定大小的椭圆曲线上的点或整数类型.
+
 
