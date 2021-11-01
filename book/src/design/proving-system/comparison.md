@@ -1,6 +1,13 @@
+# Comparison to other work
+
 # 与其他工作的比较
 
 ## BCMS20 附录 A.2
+
+Appendix A.2 of [BCMS20] describes a polynomial commitment scheme that is similar to the
+one described in [BGH19] (BCMS20 being a generalization of the original Halo paper). Halo
+2 builds on both of these works, and thus itself uses a polynomial commitment scheme that
+is very similar to the one in BCMS20.
 
 [BCMS20] 附录 A.2 提出了一种与 [BGH19] 中类似的多项式承诺机制（BCMS20 是对原始的 Halo 论文的推广）。
 Halo 2 这些工作的基础上，因此其自身也就使用了一种与 BCMS20 中很类似的多项式承诺机制。
@@ -8,6 +15,8 @@ Halo 2 这些工作的基础上，因此其自身也就使用了一种与 BCMS20
 [BGH19]: https://eprint.iacr.org/2019/1021
 [BCMS20]: https://eprint.iacr.org/2020/499
 
+The following table provides a mapping between the variable names in BCMS20, and the
+equivalent objects in Halo 2 (which builds on the nomenclature from the Halo paper):
 
 下表提供了一个BCMS20和Halo 2中具有相同含义的变量的对照表（Halo 2的术语是建立在Halo论文基础上的）：
 
@@ -29,7 +38,18 @@ Halo 2 这些工作的基础上，因此其自身也就使用了一种与 BCMS20
 |      $c$       | $a = \mathbf{a}_0$  |
 |      $v'$      |        $ab$         |
 
+Halo 2's polynomial commitment scheme differs from Appendix A.2 of BCMS20 in two ways:
+
 Halo 2的多项式承诺机制与BCMS20附录A.2的机制有两点不同：
+
+1. Step 8 of the $\text{Open}$ algorithm computes a "non-hiding" commitment $C'$ prior to
+   the inner product argument, which opens to the same value as $C$ but is a commitment to
+   a randomly-drawn polynomial. The remainder of the protocol involves no blinding. By
+   contrast, in Halo 2 we blind every single commitment that we make (even for instance
+   and fixed polynomials, though using a blinding factor of 1 for the fixed polynomials);
+   this makes the protocol simpler to reason about. As a consequence of this, the verifier
+   needs to handle the cumulative blinding factor at the end of the protocol, and so there
+   is no need to derive an equivalent to $C'$ at the start of the protocol.
 
 1. $\text{Open}$ 算法的第8步将在内积证明之前计算一个“非隐藏”的承诺 $C'$。
    该承诺与 $C$ 拥有相同的打开之，只不过它是仅是一个对一个随便写的多项式的承诺。
