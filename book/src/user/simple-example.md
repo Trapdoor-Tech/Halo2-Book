@@ -56,7 +56,7 @@ struct FieldChip<F: FieldExt> {
 }
 ```
 
-每一个"芯片"类型都要实现`Chip`接口。`Chip`接口定义了`Layouter`在做电路综合时可能需要的关于电路的某些性质，以及若将该芯片加载到电路所需要设置的任何初始状态。
+每一个"芯片"类型都要实现`Chip`接口。`Chip`接口定义了`Layouter`在做电路综合时可能需要的关于电路的某些属性，以及若将该芯片加载到电路所需要设置的任何初始状态。
 
 ```rust
 impl<F: FieldExt> Chip<F> for FieldChip<F> {
