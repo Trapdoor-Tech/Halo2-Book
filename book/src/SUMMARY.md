@@ -5,7 +5,7 @@
 [术语表](glossary.md)
 - [相关概念](concepts.md)
   - [证明系统](concepts/proofs.md)
-  - [PLONKish Arithmetization](concepts/arithmetization.md)
+  - [PLONK化算术化](concepts/arithmetization.md)
   - [芯片](concepts/chips.md)
   - [小工具](concepts/gadgets.md)
 - [用户手册](user.md)

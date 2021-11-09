@@ -1,3 +1,5 @@
+#术语表
+
 - PLONKish: PLONK系
 
 - argument: 证明
@@ -20,6 +22,10 @@
 
 - arithmetization：算术化
 
+- custom gate: 自定义门
+
+- lookup: 查找表
+
 - field：域
 
 - grand product: 大乘积
@@ -32,8 +38,12 @@
 
 - column: 列
 
+- cell：单元格
+
 - lagrange basis polynomial: 拉格朗日基多项式
 
-- 
+- floor planner：布局器
+
+- gadget：小工具
 
   
