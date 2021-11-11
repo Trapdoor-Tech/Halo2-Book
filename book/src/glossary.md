@@ -46,6 +46,8 @@
 
 - gadget：小工具
 
-- Scalar: 标量
+- scalar: 标量
+
+- vanishing polynomial：消退多项式
 
   

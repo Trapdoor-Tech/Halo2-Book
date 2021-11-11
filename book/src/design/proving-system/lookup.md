@@ -1,4 +1,4 @@
-# 查找（Lookup）论据
+# 查找表（Lookup）论据
 
 halo2实现任意集合的数据查找，相比Plookup简单。
 
@@ -106,12 +106,10 @@ $$
 halo2的查找论据实现实现了上述技术的泛化：
 
 - $A$ 和$S$列扩展为多列，这些列之间通过随机挑战因子进行组合。$A'$ 和 $S'$列还是单列。
-  - $S$列的各列承诺可以提前计算。这样在挑战因子确定后，利用Pedersen承诺的同态性质，可以很简便的组合。
+  - $S$列的各列承诺可以提前计算。这样在挑战因子确定后，利用Pedersen承诺的同态性质，可以很简便的组合成$S$列的承诺。
   - $A$列可以是采用相对引用的任意多项式表达式。这些可以替换到约束规则中去，受制于最大的阶。这样可能可以省去一个或者多个advice列。
-- 这样的话，任意关系的查找论据可以通过子集论据实现。也就是说，为了约束$\mathcal{R}(x, y, ...)$，考虑$\mathcal{R}$是$S$的子集（通过前面的方法），并且检查关系成立 $(x, y, ...) \in \mathcal{R}$。
-  - 如果$\mathcal{R}$代表一个函数，同样需要检查输入是否在域中。这是我们想要的，经常会省去额外的范围检查。In the case where $\mathcal{R}$ represents a function, this implicitly also checks
-    that the inputs are in the domain. This is typically what we want, and often saves an
-    additional range check.
+- 这样的话，查找论据可以通过子集论据实现任意长度的关系。也就是说，为了约束$\mathcal{R}(x, y, ...)$，将$\mathcal{R}$看成是$S$（通过前面的方法），并且检查关系成立 $(x, y, ...) \in \mathcal{R}$。
+  - 如果$\mathcal{R}$代表一个函数，同样需要检查输入是否在域中。这是我们想要的，经常会省去额外的范围检查。
 - 我们可以在同一个电路中支持多表。利用标示列将多个表组合成一张表。
   - 标示列可以和之前提到的“查找选择子”合并。
 

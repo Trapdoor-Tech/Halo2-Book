@@ -1,17 +1,12 @@
-# Design
+# 设计
 
-## Note on Language
+## 语言方面的注解
 
-We use slightly different language than others to describe PLONK concepts. Here's the
-overview:
+我们用和其他语言稍微不同的语言描述PLONK的相关概念。总体上：
 
-1. We like to think of PLONK-like arguments as tables, where each column corresponds to a
-   "wire". We refer to entries in this table as "cells".
-2. We like to call "selector polynomials" and so on "fixed columns" instead. We then refer
-   specifically to a "selector constraint" when a cell in a fixed column is being used to
-   control whether a particular constraint is enabled in that row.
-3. We call the other polynomials "advice columns" usually, when they're populated by the
-   prover.
-4. We use the term "rule" to refer to a "gate" like
+1. 我们把PLONK相关的证明看成表，每一列对应一根“线”。表中元素我们称为“单元格”。
+2. 我们喜欢说“选择子多项式”和“固定列”。当一个在固定列的单元格用来控制一个行中的约束是否开启的时候，我们称“选择子约束“。
+3. 其他多项式，我们称为”advice列“。这些列由证明者提供。
+4. 我们用”规则“字眼表述一个”门“，比如
    $$A(X) \cdot q_A(X) + B(X) \cdot q_B(X) + A(X) \cdot B(X) \cdot q_M(X) + C(X) \cdot q_C(X) = 0.$$
    - TODO: Check how consistent we are with this, and update the code and docs to match.
