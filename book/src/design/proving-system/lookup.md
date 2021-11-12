@@ -25,14 +25,14 @@ halo2实现任意集合的数据查找，相比Plookup简单。
 从$A$ 和$S$列的置换开始。假设它们的置换分别为$A'$ 和 $S'$列。我们可以通过置换论据$Z$约束它们之间的置换关系：
 $$
 Z(\omega X) \cdot (A'(X) + \beta) \cdot (S'(X) + \gamma) - Z(X) \cdot (A(X) + \beta) \cdot (S(X) + \gamma) = 0
-$$$$
+\\
 \ell_0(X) \cdot (1 - Z(X)) = 0
 $$
 
 也就是说，在除以0不发生的情况下，对所有的$i \in [0, 2^k)$满足：
 $$
 Z_{i+1} = Z_i \cdot \frac{(A_i + \beta) \cdot (S_i + \gamma)}{(A'_i + \beta) \cdot (S'_i + \gamma)}
-$$$$
+\\
 Z_{2^k} = Z_0 = 1.
 $$
 
@@ -71,7 +71,7 @@ $$
 
 $$
 \big(1 - (q_\mathit{last}(X) + q_\mathit{blind}(X))\big) \cdot \big(Z(\omega X) \cdot (A'(X) + \beta) \cdot (S'(X) + \gamma) - Z(X) \cdot (A(X) + \beta) \cdot (S(X) + \gamma)\big) = 0
-$$$$
+\\
 \big(1 - (q_\mathit{last}(X) + q_\mathit{blind}(X))\big) \cdot (A'(X) - S'(X)) \cdot (A'(X) - A'(\omega^{-1} X)) = 0
 $$
 
@@ -79,7 +79,7 @@ $$
 
 $$
 \ell_0(X) \cdot (A'(X) - S'(X)) = 0
-$$$$
+\\
 \ell_0(X) \cdot (1 - Z(X)) = 0
 $$
 
