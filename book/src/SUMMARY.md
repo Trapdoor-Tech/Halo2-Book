@@ -19,7 +19,7 @@
     - [查找证明](design/proving-system/lookup.md)
     - [置换证明](design/proving-system/permutation.md)
     - [电路承诺](design/proving-system/circuit-commitments.md)
-    - [Vanishing argument](design/proving-system/vanishing.md)
+    - [消退证明](design/proving-system/vanishing.md)
     - [多点打开证明](design/proving-system/multipoint-opening.md)
     - [内积证明](design/proving-system/inner-product.md)
     - [与其他工作的比较](design/proving-system/comparison.md)
