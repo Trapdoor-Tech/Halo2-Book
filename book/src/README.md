@@ -13,7 +13,7 @@
 ## 并行控制方案
 
 `halo2` 当前为并行计算使用 [rayon](https://github.com/rayon-rs/rayon) .
-设置 线程数量数量时使用 `RAYON_NUM_THREADS` 环境变量
+设置线程数量时使用 `RAYON_NUM_THREADS` 环境变量
 
 ## 许可证
 
