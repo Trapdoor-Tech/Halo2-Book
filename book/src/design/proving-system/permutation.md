@@ -46,7 +46,7 @@ $$(a\ b\ c)\ (d\ e)$$
 - 还有一个数组 $\mathsf{sizes}$ 用来记录每个轮换的元素个数。
 
 我们在一个给定的轮换 $C$ 中选取一个不变的值 $c$，对每一个 $C$ 中的元素 $x$，$\mathsf{aux}(x)$
-都得到相同的值，即 $c \in C$。有了这个值，对于给定的两个给定的元素 $x$ 和 $y$，我们可以通过检查 $\mathsf{aux}(x) = \mathsf{aux}(y)$ 是否成立，来快速判断它们是否在同一个轮换中。$\mathsf{sizes}(\mathsf{aux}(x))$ 也代表了包含 $x$ 的轮换的大小。（只有 $\mathsf{sizes}(\mathsf{aux}(x))$ 是有保证的，而不是 $\mathsf{sizes}(x)$。）
+都得到相同的值，即 $c \in C$。有了这个值，对于给定的两个元素 $x$ 和 $y$，我们可以通过检查 $\mathsf{aux}(x) = \mathsf{aux}(y)$ 是否成立，来快速判断它们是否在同一个轮换中。$\mathsf{sizes}(\mathsf{aux}(x))$ 也代表了包含 $x$ 的轮换的大小。（只有 $\mathsf{sizes}(\mathsf{aux}(x))$ 是有保证的，而不是 $\mathsf{sizes}(x)$。）
 
 本算法是以表示一个单位置换开始：
 对所有 $x$，我们令 $\mathsf{mapping}(x) = x$，$\mathsf{aux}(x) = x$，和
